@@ -8,31 +8,81 @@
     <link rel="stylesheet" href="/css/styles.css"/>
 </head>
 <body>
+    <!-- Setting pop up -->
+    <section class="fullScreen" id="fullScreen"></section>
+
+    <section class="modal" id="modal">
+        <div class="banner">
+            <div class="banner-title">Setting</div>
+            <div class="banner-button">
+                <button class="iconButton close-button" type="button" data-key="close">
+                    <img class="icon" src="images/cancel_icon.png"/>
+                </button>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-col">
+                <label for="store-name" class="setting-label">Store Name :</label>
+                <input type="text" class="setting-input" id="store-name">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="iconButton save-button" data-key="save">
+                Save setting
+            </button>
+            <button type="button" class="iconButton cancel-button" data-key="close">
+                cancel
+            </button>
+        </div>
+    </section>
+
     <!-- Banner ( Store name and setting )-->
     <section class="banner">
         <div class="storeName">Example</div>
-        <div class="setting">
-            <img class="settingIcon" src="images/settings.png"/>
+        <div class="banner-button">
+            <button class="iconButton settingButton" type="button" data-key="setting">
+                <img class="icon" src="images/settings.png"/>
+            </button>
         </div>
     </section>
+
     <!--  List of number  -->
     <section class="numberList">
 
     </section>
+
     <!--  Numbering input and dial section -->
     <section class="numbering">
-        <div class="numberInput"></div>
+        <div class="numberInput">
+            <span class="inputNum"></span>
+            <button class="back-key" data-key="back">Back</button>
+        </div>
         <div class="numberDial">
-            <div class="row"></div>
-            <div class="row"></div>
-            <div class="row"></div>
+            <div class="row">
+                <button class="key" data-key="7">7</button>
+                <button class="key" data-key="8">8</button>
+                <button class="key" data-key="9">9</button>
+            </div>
+            <div class="row">
+                <button class="key" data-key="4">4</button>
+                <button class="key" data-key="5">5</button>
+                <button class="key" data-key="6">6</button>
+            </div>
+            <div class="row">
+                <button class="key" data-key="1">1</button>
+                <button class="key" data-key="2">2</button>
+                <button class="key" data-key="3">3</button>
+            </div>
+            <div class="row">
+                <button class="key" data-key="clear">Clear</button>
+                <button class="key" data-key="0">0</button>
+                <button class="key" data-key="enter">Send</button>
+            </div>
         </div>
     </section>
+
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-<script>
-    const socket = io("http://localhost:3000");
-    console.log("Test");
-    console.log(socket);
-</script>
+<script src="js/numberpad.js"></script>
 </body>
 </html>
