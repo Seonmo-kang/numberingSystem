@@ -15,9 +15,9 @@
         <div class="banner">
             <div class="banner-title">Setting</div>
             <div class="banner-button">
-                <button class="iconButton close-button" type="button" data-key="close">
+                <a class="iconButton button close-button" id="close" data-key="close">
                     <img class="icon" src="images/cancel_icon.png"/>
-                </button>
+                </a>
             </div>
         </div>
         <div class="modal-body">
@@ -28,10 +28,10 @@
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="iconButton save-button" data-key="save">
+            <button type="button" id="save" class="iconButton button save-button" data-key="save">
                 Save setting
             </button>
-            <button type="button" class="iconButton cancel-button" data-key="close">
+            <button type="button" class="iconButton button cancel-button" id="cancel" data-key="close">
                 cancel
             </button>
         </div>
@@ -41,22 +41,22 @@
     <section class="banner">
         <div class="storeName">Example</div>
         <div class="banner-button">
-            <button class="iconButton settingButton" type="button" data-key="setting">
+            <a class="iconButton button settingButton" id="setting" data-key="setting">
                 <img class="icon" src="images/settings.png"/>
-            </button>
+            </a>
         </div>
     </section>
 
     <!--  List of number  -->
-    <section class="numberList">
+    <section class="numberList" id="numberList">
 
     </section>
 
     <!--  Numbering input and dial section -->
     <section class="numbering">
         <div class="numberInput">
-            <span class="inputNum"></span>
-            <button class="back-key" data-key="back">Back</button>
+            <span class="inputNum" id="numberInput"></span>
+            <button class="key back-key" data-key="back">Back</button>
         </div>
         <div class="numberDial">
             <div class="row">

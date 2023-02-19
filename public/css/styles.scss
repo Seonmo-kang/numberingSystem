@@ -40,12 +40,15 @@ body {
     margin-right: 1.5rem;
     align-self: center;
     & .iconButton{
+      display: block;
+      width: auto;
       background-color: transparent;
       border : none;
     }
     & .icon{
       width: 70px;
       height: auto;
+      pointer-events: none;
     }
   }
 }
