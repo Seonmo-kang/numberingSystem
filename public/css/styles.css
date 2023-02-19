@@ -1,0 +1,169 @@
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.banner {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  text-align: center;
+  background-color: cornflowerblue;
+  z-index: 10;
+}
+.banner .storeName, .modal .banner .banner-title {
+  margin-left: 1.5rem;
+  align-self: center;
+  font-size: 2.5rem;
+}
+.banner .banner-button {
+  margin-left: auto;
+  margin-right: 1.5rem;
+  align-self: center;
+}
+.banner .banner-button .iconButton {
+  background-color: transparent;
+  border: none;
+}
+.banner .banner-button .icon {
+  width: 70px;
+  height: auto;
+}
+
+.modal {
+  background: white;
+  position: absolute;
+  display: none;
+  float: left;
+  padding: 1rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  border-radius: 15px;
+}
+.modal .banner {
+  background-color: transparent;
+  border-bottom: 1px solid #333333;
+}
+.modal .modal-body {
+  display: block;
+  flex-direction: column;
+  margin: auto;
+  padding: 3rem;
+  font-size: 1.75rem;
+}
+.modal .modal-body .modal-col {
+  display: block;
+}
+.modal .modal-body .modal-col .setting-label {
+  display: block;
+  padding: 0.375rem 0;
+}
+.modal .modal-body .modal-col .setting-input {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 2rem;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: 0.375rem;
+}
+.modal .modal-footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.75rem 0.375rem;
+}
+.modal .modal-footer button {
+  background-color: #0d6efd;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 2rem;
+  margin: 0.375rem;
+  font-size: 1.5rem;
+}
+.modal .modal-footer .cancel-button {
+  background-color: brown;
+}
+
+.fullScreen {
+  position: absolute;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+.numberList {
+  width: 55%;
+  top: 100px;
+  height: calc(100% - 100px);
+  position: absolute;
+  background-color: brown;
+}
+
+.numbering {
+  width: 45%;
+  height: calc(100% - 100px);
+  left: 55%;
+  top: 100px;
+  position: absolute;
+  background-color: #f9f9f9;
+}
+.numbering .numberInput {
+  display: flex;
+  width: 100%;
+  height: 150px;
+  background-color: white;
+}
+.numbering .numberInput .inputNum {
+  display: flex;
+  width: 66.7%;
+}
+.numbering .numberDial {
+  height: calc(100% - 150px);
+}
+.numbering .numberDial .row {
+  display: flex;
+  width: 100%;
+  height: 25%;
+}
+
+.key, .numberInput .back-key {
+  width: 33.3333333333%;
+  font-size: 3rem;
+  background-color: gainsboro;
+  border: 1px solid #f9f9f9;
+  border-radius: 5px;
+}
+
+.key:last-child, .numberInput .back-key:last-child {
+  border-right: none;
+}
+
+.numberInput .back-key {
+  width: 33.3333333333%;
+  margin-left: auto;
+  border-left: 1px solid #f9f9f9;
+}
+
+.key:active, .back-key:active {
+  background-color: white;
+}
+
+/*# sourceMappingURL=styles.css.map */
