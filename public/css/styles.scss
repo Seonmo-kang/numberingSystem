@@ -8,6 +8,7 @@ $numberingLeft : $numberListWidth;  // Compute position left
 
 $numberInputHeight : 150px;
 $numberBorderColor : #f9f9f9;
+$bannerColor : cornflowerblue;
 
 *, ::before, ::after{
   margin:0;
@@ -28,12 +29,12 @@ body {
   height: 100px;
   display:flex;
   text-align:center;
-  background-color: cornflowerblue;
+  background-color: $bannerColor;
   z-index:10;
   & .storeName{
     margin-left: 1.5rem;
     align-self: center;
-    font-size: 2.5rem;
+    font-size: 5rem;
   }
   & .banner-button{
     margin-left: auto;
@@ -133,11 +134,32 @@ body {
 
 // Numbering list
 .numberList{
-  width: $numberListWidth;
-  top: 100px;
-  height: calc( 100% - 100px); // Entire Height - banner height
   position: absolute;
-  background-color: brown;
+  top: 100px;
+  width: $numberListWidth;
+  height: calc( 100% - 100px); // Entire Height - banner height
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-size: 7rem;
+  letter-spacing: 1rem;
+  //background-color: lightblue;
+  overflow: scroll;
+  & .order{
+    display: flex;
+    width: 100%;
+    padding : 1.5rem 3rem;
+    & .delete-order{
+      width: 35%;
+      margin-left: auto;
+      font-size: 2rem;
+      border-radius: 0.375rem;
+      background-color: brown;
+    }
+  }
+}
+.double-dot{
+  border-right: 5px #333333 double;
 }
 
 // Number Pad
@@ -157,7 +179,12 @@ body {
 
     & .inputNum{
       display: flex;
+      justify-content: center;
+      align-items: center;
       width: calc(100% - 33.3%);
+      font-size: 4rem;
+      letter-spacing: 10px;
+
     }
   }
 
@@ -192,6 +219,6 @@ body {
 }
 
 .key:active, .back-key:active{
-  background-color: white;
+  background-color: darkgrey;
   //animation: background-color ease-in 1s;
 }
