@@ -37,18 +37,21 @@ io.on('connection', (socket) => {
     socket.on('send_number', (data) =>{
         // socket contains number, operation number
         console.log("send_number function Test : ",data);
+        socket.broadcast.emit("send_number_to_board",data);
     })
     //Get number from numberpad page
     //Send to every socket to delete number element
     socket.on('delete_number', (data) =>{
         // socket contains number, operation number
         console.log("delete_number function Test : ",data);
+        socket.broadcast.emit("send_delete_number_to_board",data);
     })
 
     //Get store name from numberpad page
     //Send to every socket to change store name
     socket.on('send_storeName', (data)=> {
         console.log("send_storeName function Test : ",data);
+        socket.broadcast.emit("send_storeName_to_board",data);
     })
 
 

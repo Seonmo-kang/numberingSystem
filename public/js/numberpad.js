@@ -7,6 +7,22 @@ const socket = io("http://localhost:3000");
 console.log("Test");
 console.log(socket);
 
+// Number key listener
+// Print number on numberInput element
+// socket.emit("send_number", data);
+
+// Send adding number
+// event by send button on numbering
+//socket.emit('send_number',{});
+
+// Send deleting number
+// event by delete button on numberlist
+//socket.emit('delete_number',{});
+
+// Send store Name
+// event by click change button in setting pop up window
+//socket.emit('send_storeName',{});
+
 // if localstorage doesn't have store name then open setting pop up window
 function initialStoreNameSetUp(){
     if(localStorage.getItem("store-name")==null){
@@ -17,6 +33,9 @@ function initialStoreNameSetUp(){
         let cancelButton = document.getElementById("cancel");
         cancelButton.disabled = true;
         cancelButton.style.background = "gray";
+    }else{
+        let storeBanner = document.getElementById("storeName");
+        storeBanner.innerText = localStorage.getItem("store-name");
     }
 }
 
@@ -34,6 +53,7 @@ function modalControl(string){
 
 function setStoreName(){
     let storeNameInput = document.getElementById("store-name");
+    let storeBanner = document.getElementById("storeName");
     let storeName = storeNameInput.value;
     console.log("storeName :",storeName);
     // exception : Store Name is empty
@@ -50,7 +70,9 @@ function setStoreName(){
         let closeButton = document.getElementById("close");
         closeButton.disabled = false;
         window.localStorage.setItem("store-name",storeName);
-
+        localStorage.setItem("store-name",storeName);
+        storeBanner.innerText = storeName;
+        socket.emit("send_storeName",storeName);
     }
 }
 function hasFrontSpace(string){
@@ -88,7 +110,7 @@ function buttonClick(){
         }
     }
 }
-
+// Key click - number, enter, back, clear, save
 function keyClick(){
     const keys = document.querySelectorAll("button.key");
     let numberInput = document.getElementById("numberInput");
@@ -96,22 +118,60 @@ function keyClick(){
         key.onclick = ({target}) => {
             const data = target.getAttribute("data-key");
             if(data == "enter"){
-                let currentOrder = document.createElement("div");
-                currentOrder.id = numberInput.innerText;
-                currentOrder.classList.add("order");
-                currentOrder.innerText = numberInput.innerText;
-                document.getElementById("numberList").append(currentOrder);
+                // The number is duplicated then number order color is changed red.
+                if(!isDuplicatedNum(numberInput.innerText)){
+                    let currentOrder = document.createElement("div");
+                    currentOrder.id = numberInput.innerText;
+                    currentOrder.classList.add("order");
+                    currentOrder.innerText = numberInput.innerText;
+                        let deleteButton = document.createElement("button");
+                        deleteButton.id = "delete-" + numberInput.innerText;
+                        deleteButton.classList.add("delete-order");
+                        deleteButton.classList.add("key");
+                        deleteButton.dataset.key = "delete-order";
+                        deleteButton.onclick = function (){
+                            // oder id is letters over 7 letters.
+                            let order_id = deleteButton.id.slice(7);
+                            console.log("order_id :", order_id);
+                            let order = document.getElementById(order_id);
+                            console.log("order : ", order);
+                            order.parentElement.removeChild(order);
+                            socket.emit("delete_number",order_id);
+                        };
+                        deleteButton.innerText = "Delete";
+                        currentOrder.append(deleteButton);
+                    document.getElementById("numberList").prepend(currentOrder);
+                    socket.emit("send_number", numberInput.innerText);
+                }
                 numberInput.innerText = '';
             }else if(data == "back"){
-                numberInput.innerText.charAt(numberInput.innerText.length-1);
-            }else if(data == "clear"){
+                numberInput.innerText = numberInput.innerText.slice(0,-1);
+            }else if(data == "clear") {
                 numberInput.innerText = '';
-            }else{
+            }
+            else{
                 console.log("data : ",data);
-                numberInput.innerText+=data;
+                numberInput.innerText += data;
             }
         }
     }
+}
+
+// Duplicated order number
+function isDuplicatedNum(number){
+    const orders = document.querySelectorAll(".numberList div");
+    console.log("orders : ", orders);
+    for(let order of orders){
+        if(order.id == number){
+            // Error?
+            // Making number red?
+            console.log("Number has been notified");
+            order.style.color = "red";
+            return true;
+        }
+    }
+    return false;
+
 }
 
 
@@ -123,17 +183,4 @@ window.onload = function (){
     buttonClick();
     keyClick();
 }
-// Number key listener
-    // Print number on numberInput element
 
-// Send adding number
-// event by send button on numbering
-    //socket.emit('send_number',{});
-
-// Send deleting number
-// event by delete button on numberlist
-    //socket.emit('delete_number',{});
-
-// Send store Name
-// event by click change button in setting pop up window
-    //socket.emit('send_storeName',{});
