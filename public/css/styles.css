@@ -23,7 +23,7 @@ body {
 .banner .storeName, .modal .banner .banner-title {
   margin-left: 1.5rem;
   align-self: center;
-  font-size: 2.5rem;
+  font-size: 5rem;
 }
 .banner .banner-button {
   margin-left: auto;
@@ -113,11 +113,32 @@ body {
 }
 
 .numberList {
-  width: 55%;
-  top: 100px;
-  height: calc(100% - 100px);
   position: absolute;
+  top: 100px;
+  width: 55%;
+  height: calc(100% - 100px);
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-size: 7rem;
+  letter-spacing: 1rem;
+  overflow: scroll;
+}
+.numberList .order {
+  display: flex;
+  width: 100%;
+  padding: 1.5rem 3rem;
+}
+.numberList .order .delete-order {
+  width: 35%;
+  margin-left: auto;
+  font-size: 2rem;
+  border-radius: 0.375rem;
   background-color: brown;
+}
+
+.double-dot {
+  border-right: 5px #333333 double;
 }
 
 .numbering {
@@ -136,7 +157,11 @@ body {
 }
 .numbering .numberInput .inputNum {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 66.7%;
+  font-size: 4rem;
+  letter-spacing: 10px;
 }
 .numbering .numberDial {
   height: calc(100% - 150px);
@@ -166,7 +191,35 @@ body {
 }
 
 .key:active, .back-key:active {
-  background-color: white;
+  background-color: darkgrey;
+}
+
+.alert-modal {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: cornflowerblue;
+  font-size: 35rem;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.board-number-list {
+  position: absolute;
+  top: 100px;
+  display: flex;
+  align-items: center;
+  font-size: 15rem;
+  letter-spacing: 1rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.board-order {
+  display: flex;
+  padding: 3rem;
 }
 
 /*# sourceMappingURL=styles.css.map */
