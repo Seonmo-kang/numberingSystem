@@ -129,12 +129,15 @@ body {
   width: 100%;
   padding: 1.5rem 3rem;
 }
-.numberList .order .delete-order {
-  width: 35%;
-  margin-left: auto;
+.numberList .order .delete-order, .numberList .order .repeat-order {
+  width: 25%;
   font-size: 2rem;
   border-radius: 0.375rem;
   background-color: brown;
+}
+.numberList .order .repeat-order {
+  margin-left: auto;
+  background-color: darkgoldenrod;
 }
 
 .double-dot {

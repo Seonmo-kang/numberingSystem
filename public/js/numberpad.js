@@ -124,25 +124,43 @@ function keyClick(){
                     currentOrder.id = numberInput.innerText;
                     currentOrder.classList.add("order");
                     currentOrder.innerText = numberInput.innerText;
-                        let deleteButton = document.createElement("button");
-                        deleteButton.id = "delete-" + numberInput.innerText;
-                        deleteButton.classList.add("delete-order");
-                        deleteButton.classList.add("key");
-                        deleteButton.dataset.key = "delete-order";
-                        deleteButton.onclick = function (){
-                            // oder id is letters over 7 letters.
-                            let order_id = deleteButton.id.slice(7);
-                            console.log("order_id :", order_id);
-                            let order = document.getElementById(order_id);
-                            console.log("order : ", order);
-                            order.parentElement.removeChild(order);
-                            socket.emit("delete_number",order_id);
-                        };
-                        deleteButton.innerText = "Delete";
-                        currentOrder.append(deleteButton);
+
+                    // repeat button
+                    let repeatButton = document.createElement("button");
+                    repeatButton.id = "repeat-" + numberInput.innerText;
+                    repeatButton.classList.add("repeat-order");
+                    repeatButton.dataset.key = "repeat-order";
+                    repeatButton.onclick = function (){
+                        let order_id = repeatButton.id.slice(7);
+                        let order = document.getElementById(order_id);
+                        order.style.color = "red";
+                        tts(localStorage.getItem("store-name"),order_id);
+                    }
+                    repeatButton.innerText = "repeat";
+                    currentOrder.append(repeatButton);
+
+                    // delete button
+                    let deleteButton = document.createElement("button");
+                    deleteButton.id = "delete-" + numberInput.innerText;
+                    deleteButton.classList.add("delete-order");
+                    deleteButton.classList.add("key");
+                    deleteButton.dataset.key = "delete-order";
+                    deleteButton.onclick = function (){
+                        // oder id is letters over 7 letters.
+                        let order_id = deleteButton.id.slice(7);
+                        console.log("order_id :", order_id);
+                        let order = document.getElementById(order_id);
+                        console.log("order : ", order);
+                        order.parentElement.removeChild(order);
+                        socket.emit("delete_number",order_id);
+                    };
+                    deleteButton.innerText = "Delete";
+                    currentOrder.append(deleteButton);
+
                     document.getElementById("numberList").prepend(currentOrder);
                     socket.emit("send_number", numberInput.innerText);
                 }
+                tts(localStorage.getItem("store-name"),numberInput.innerText)
                 numberInput.innerText = '';
             }else if(data == "back"){
                 numberInput.innerText = numberInput.innerText.slice(0,-1);
@@ -155,6 +173,32 @@ function keyClick(){
             }
         }
     }
+}
+function openBoard(){
+    let modal_width = 200;
+    let modal_height = 200;
+    console.log("window.screen.width : ",window.screen.width);
+    let win = window.open('http://localhost:3000/board', 'board', "location=2,toolbar=0," + popup_params(modal_width, modal_height));
+    let left = (window.screen.width/2)-(modal_width/2);
+    let top = (window.screen.height/2)-(modal_height/2);
+    win.moveTo(left,top);
+}
+function popup_params(width, height) {
+    let a = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft;
+    let i = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop;
+    let g = typeof window.outerWidth!='undefined' ? window.outerWidth : document.documentElement.clientWidth;
+    let f = typeof window.outerHeight != 'undefined' ? window.outerHeight: (document.documentElement.clientHeight - 22);
+    let h = (a < 0) ? window.screen.width + a : a;
+    let left = parseInt(h + ((g - width) / 2), 10);
+    let top = parseInt(i + ((f-height) / 2.5), 10);
+    return 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top + ',scrollbars=1';
+}
+
+function tts(storeName, number){
+    let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
+    const synth = window.speechSynthesis;
+    utterance.rate = 0.8;
+    synth.speak(utterance);
 }
 
 // Duplicated order number
