@@ -118,6 +118,9 @@ function keyClick(){
         key.onclick = ({target}) => {
             const data = target.getAttribute("data-key");
             if(data == "enter"){
+                // prevent blank number
+                if(numberInput.innerText == "")
+                    return ;
                 // The number is duplicated then number order color is changed red.
                 if(!isDuplicatedNum(numberInput.innerText)){
                     let currentOrder = document.createElement("div");
@@ -160,8 +163,10 @@ function keyClick(){
                     document.getElementById("numberList").prepend(currentOrder);
                     socket.emit("send_number", numberInput.innerText);
                 }
-                tts(localStorage.getItem("store-name"),numberInput.innerText)
+                tts(localStorage.getItem("store-name"),numberInput.innerText);
+
                 numberInput.innerText = '';
+
             }else if(data == "back"){
                 numberInput.innerText = numberInput.innerText.slice(0,-1);
             }else if(data == "clear") {
@@ -174,31 +179,23 @@ function keyClick(){
         }
     }
 }
-function openBoard(){
-    let modal_width = 200;
-    let modal_height = 200;
-    console.log("window.screen.width : ",window.screen.width);
-    let win = window.open('http://localhost:3000/board', 'board', "location=2,toolbar=0," + popup_params(modal_width, modal_height));
-    let left = (window.screen.width/2)-(modal_width/2);
-    let top = (window.screen.height/2)-(modal_height/2);
-    win.moveTo(left,top);
-}
-function popup_params(width, height) {
-    let a = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft;
-    let i = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop;
-    let g = typeof window.outerWidth!='undefined' ? window.outerWidth : document.documentElement.clientWidth;
-    let f = typeof window.outerHeight != 'undefined' ? window.outerHeight: (document.documentElement.clientHeight - 22);
-    let h = (a < 0) ? window.screen.width + a : a;
-    let left = parseInt(h + ((g - width) / 2), 10);
-    let top = parseInt(i + ((f-height) / 2.5), 10);
-    return 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top + ',scrollbars=1';
-}
 
+
+function audioPlay(){
+    // ding dong sound
+    let audioElement = new Audio("../sound/ding-dong-sound.mp3");
+    audioElement.play();
+}
+// order announce
 function tts(storeName, number){
-    let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
-    const synth = window.speechSynthesis;
-    utterance.rate = 0.8;
-    synth.speak(utterance);
+    audioPlay();
+    setTimeout(()=>{
+        // let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
+        let utterance =  new SpeechSynthesisUtterance("  your number "+number+" is ready");
+        const synth = window.speechSynthesis;
+        utterance.rate = 0.8;
+        synth.speak(utterance);
+    },2000);
 }
 
 // Duplicated order number
@@ -215,11 +212,7 @@ function isDuplicatedNum(number){
         }
     }
     return false;
-
 }
-
-
-
 
 
 window.onload = function (){

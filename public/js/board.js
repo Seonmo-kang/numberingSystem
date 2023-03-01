@@ -54,7 +54,7 @@ function alertNumber(number){
     let alertModalElement = document.getElementById('alert-modal');
     alertModalElement.style.display = "flex";
     alertModalElement.innerText = number;
-    setInterval(closeAlertNumber,5000);
+    setTimeout(closeAlertNumber,5000);
 }
 function closeAlertNumber(){
     let alertModalElement = document.getElementById('alert-modal');

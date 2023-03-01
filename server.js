@@ -28,14 +28,10 @@ io.on('connection', (socket) => {
     console.log('a user connected');
     console.log(socket.id);
 
-    // operation number :
-    // 1 = add
-    // 0 = delete
-
     //Get number from numberpad page
     //Send to every socket to notify number
     socket.on('send_number', (data) =>{
-        // socket contains number, operation number
+        // socket contains number
         console.log("send_number function Test : ",data);
         socket.broadcast.emit("send_number_to_board",data);
     })
