@@ -56,11 +56,41 @@ function setStoreName(){
     if(storeName.innerText==""){
         // alert
         console.log("storeName is empty. Alert should be popped up");
+        Toastify({
+            text: "storeName is empty.",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
+            style: {
+                padding: "2rem",
+                fontSize: "2rem",
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function(){} // Callback after click
+        }).showToast();
     }
     // exception : Store Name has Front space
     else if(!hasFrontSpace(storeName)){
         // alert
         console.log("hasFrontSpace : false, Alert should be popped up");
+        Toastify({
+            text: "Store name has front space",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
+            style: {
+                padding: "2rem",
+                fontSize: "2rem",
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function(){} // Callback after click
+        }).showToast();
     }
     else{
         let closeButton = document.getElementById("close");
@@ -194,9 +224,12 @@ function keyClick(){
             const data = target.getAttribute("data-key");
             if(data == "enter"){
                 // prevent blank number
-                if(numberInput.innerText == "")
+                if(numberInput.innerText == "" || formatNumber(numberInput.innerText)=="" ){
+                    numberInput.innerText = "";
                     return ;
-                createNumber(numberInput.innerText);
+                }
+                // numberInput.innerText = formatNumber(numberInput.innerText);
+                createNumber(formatNumber(numberInput.innerText));
                 numberInput.innerText = '';
             }else if(data == "back"){
                 numberInput.innerText = numberInput.innerText.slice(0,-1);
@@ -234,6 +267,13 @@ function keyClick(){
             }
         }
     }
+}
+function formatNumber(number){
+    const re = new RegExp("[1-9]+");
+    if(re.exec(number)==null){
+        return "";
+    }
+    return number.slice(re.exec(number).index);
 }
 // Create number & TTS
 // Exception : duplicated
@@ -288,18 +328,27 @@ function audioPlay(){
     let audioElement = new Audio("../sound/ding-dong-sound.mp3");
     audioElement.play();
 }
+
+/*
+* It seems that the voices array is empty on the first call. From what I read it has something to do with an asynchronous call to load the voices. So, it's always empty the first time it's called. For me this did the magic:
+* */
+let speech_voices;
+if ('speechSynthesis' in window) {
+    speech_voices = window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = function() {
+        speech_voices = window.speechSynthesis.getVoices();
+    };
+}
 // order announce
 function tts(storeName, number){
     audioPlay();
     setTimeout(()=>{
         // let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
-        let utterance =  new SpeechSynthesisUtterance("  your number "+number+" is ready");
-        const synth = window.speechSynthesis;
+        let utterance =  new SpeechSynthesisUtterance("  your order number "+number+" is ready");
         utterance.rate = 0.75;
-        let voices = window.speechSynthesis.getVoices();
-        utterance.voice = voices.filter(function(voice){ return voice.name == 'Google US English';})[0];
-        // synth.speak(utterance);
-        synth(utterance);
+        // let voices = window.speechSynthesis.getVoices();
+        utterance.voice = speech_voices.filter(function(voice){ return voice.name == 'Google US English'; })[0];
+        speechSynthesis.speak(utterance);
     },2000);
 }
 
