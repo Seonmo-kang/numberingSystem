@@ -8,15 +8,20 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    <section class="fullScreen" id="fullScreen" data-key="screen"></section>
+
+    <div class="modal modal-content" id="modal-content">
+        Please Click here to Full Screen
+    </div>
+
     <!-- Alert modal for new number -->
     <section class="alert-modal" id="alert-modal"></section>
     <!-- Banner ( Store name and setting )-->
-    <section class="banner">
-        <div class="storeName" id="storeName">Example</div>
+    <section class="banner customer-banner">
+        <div class="storeName customer-storeName" id="storeName">Example</div>
     </section>
     <!--  List of number  -->
     <section class="board-number-list" id="numberList">
-
     </section>
 <!--    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>-->
     <script src="/socket.io/socket.io.js"></script>
