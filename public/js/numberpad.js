@@ -1,10 +1,4 @@
-
-// operation number :
-// 1 = add
-// 0 = delete
-
 const socket = io("http://localhost:3000");
-console.log("Test");
 console.log(socket);
 
 // Number key listener
@@ -25,8 +19,23 @@ console.log(socket);
 
 // if localstorage doesn't have store name then open setting pop up window
 function initialStoreNameSetUp(){
-    if(localStorage.getItem("store-name")==null){
-        modalControl("block");
+    if(localStorage.getItem("store-name") == null){
+        Toastify({
+            text: "Please set up Store name!",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                padding: "2rem",
+                fontSize: "2rem",
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function(){} // Callback after click
+        }).showToast();
+        modalControl("setting-modal","block");
         //Disable cancel button
         let closeButton = document.getElementById("close");
         closeButton.disabled = true;
@@ -38,19 +47,6 @@ function initialStoreNameSetUp(){
         storeBanner.innerText = localStorage.getItem("store-name");
     }
 }
-
-function modalControl(string){
-    //open setting pop up
-    //Full monitor make dark
-    if(string==null)
-        return console.log("Need string parameter in modalControl function");
-    console.log(string, typeof string);
-    let modalElement = document.getElementById("modal");
-    let fullscreenElement = document.getElementById("fullScreen");
-    fullscreenElement.style.display = string;
-    modalElement.style.display = string;
-}
-
 function setStoreName(){
     let storeNameInput = document.getElementById("store-name");
     let storeBanner = document.getElementById("storeName");
@@ -82,8 +78,68 @@ function hasFrontSpace(string){
     }
     return true;
 }
+//Guide Modal
+let guideModals = document.getElementsByClassName("guide-modal");
+let guideContent = document.getElementsByClassName("guide-content");
+function guideModalButton(){
+    const buttons = document.getElementsByClassName("guide-button");
+    console.log("buttons : ", buttons);
+    for(let button of buttons){
+        button.onclick = ({target}) => {
+            const data = target.getAttribute("data-guide");
+            console.log("data from guideModalButton : ",data)
+            let guideButtons = document.getElementsByClassName("guide-button");
+            if(data == "close"){
+                modalControl("guide-modal","none");
+            }else if(data == "next"){
+                guideContent[0].innerText = "Please check board page is on TV Screen";
 
-function buttonClick(){
+                // Move to checking board page window is available process button or Close modal
+                guideButtons[1].setAttribute("data-guide","closeModal");
+                guideButtons[1].innerText = "Yes";
+                guideButtons[2].setAttribute("data-guide","newWindow");
+                guideButtons[2].innerText = "No";
+            }else if(data == "monitor"){
+                // Move to monitor turn on process
+                guideButtons[1].setAttribute("data-guide","next");
+                guideButtons[1].innerText = "I did";
+                guideButtons[2].setAttribute("data-guide","help");
+                guideButtons[2].innerText = " Need a help";
+                guideContent[0].innerText = "Please turn TV on and connect HDMI Cable";
+            }else if(data== "help"){
+                // Open Guide PDF file
+                Toastify({
+                    text: "There is No number",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "center", // `left`, `center` or `right`
+                    stopOnFocus: false, // Prevents dismissing of toast on hover
+                    style: {
+                        padding: "2rem",
+                        fontSize: "2rem",
+                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                    },
+                    onClick: function(){} // Callback after click
+                }).showToast();
+            }else if(data == "newWindow"){
+                // close board using socket IO
+                socket.emit('close_board',"null");
+                // open new board
+                window.open("http://localhost:3000/board","_blank","height=800,width=800");
+                // in Board
+                // Hover mouse then Alert F11 for full screen
+                // if It is fullscreen then alert win+shift+ left Arrow keyboard
+            }else if(data == "closeModal"){
+                guideModals[0].style.display = "none";
+                document.getElementById("fullScreen").style.display = "none";
+            }
+        }
+    }
+}
+//Setting modal button
+function settingButtonClick(){
     const buttons = document.querySelectorAll(".button");
     console.log(buttons);
     for(let button of buttons){
@@ -92,23 +148,42 @@ function buttonClick(){
             console.log("data : ",data);
             switch (data){
                 case "close":
-                    modalControl("none");
+                    modalControl("setting-modal","none");
                     break;
                 case "save":
                     setStoreName();
-                    modalControl("none");
+                    modalControl("setting-modal","none");
                     break;
                 case "cancel":
-                    modalControl("none");
+                    modalControl("setting-modal","none");
                     break;
                 case "setting":
-                    modalControl("block");
+                    modalControl("setting-modal","block");
+                    break;
+                case "fullscreen":
+                    toggleFullScreen();
+                    break;
+                    // socket.emit('fullscreen_board',"fullscreen_board is working");
+                case "help":
+                    document.getElementById("fullScreen").style.display = "block";
+                    document.getElementById("guide-modal").style.display = "block";
                     break;
                 default:
                     console.log("Hit ",data);
             }
         }
     }
+}
+function modalControl(modalName,string){
+    //open setting pop up
+    //Full monitor make dark
+    if(string==null)
+        return console.log("Need string parameter in modalControl function");
+    console.log(string, typeof string);
+    let modal = document.getElementById(modalName);
+    let fullscreenElement = document.getElementById("fullScreen");
+    fullscreenElement.style.display = string;
+    modal.style.display = string;
 }
 // Key click - number, enter, back, clear, save
 function keyClick(){
@@ -121,56 +196,37 @@ function keyClick(){
                 // prevent blank number
                 if(numberInput.innerText == "")
                     return ;
-                // The number is duplicated then number order color is changed red.
-                if(!isDuplicatedNum(numberInput.innerText)){
-                    let currentOrder = document.createElement("div");
-                    currentOrder.id = numberInput.innerText;
-                    currentOrder.classList.add("order");
-                    currentOrder.innerText = numberInput.innerText;
-
-                    // repeat button
-                    let repeatButton = document.createElement("button");
-                    repeatButton.id = "repeat-" + numberInput.innerText;
-                    repeatButton.classList.add("repeat-order");
-                    repeatButton.dataset.key = "repeat-order";
-                    repeatButton.onclick = function (){
-                        let order_id = repeatButton.id.slice(7);
-                        let order = document.getElementById(order_id);
-                        order.style.color = "red";
-                        tts(localStorage.getItem("store-name"),order_id);
-                    }
-                    repeatButton.innerText = "repeat";
-                    currentOrder.append(repeatButton);
-
-                    // delete button
-                    let deleteButton = document.createElement("button");
-                    deleteButton.id = "delete-" + numberInput.innerText;
-                    deleteButton.classList.add("delete-order");
-                    deleteButton.classList.add("key");
-                    deleteButton.dataset.key = "delete-order";
-                    deleteButton.onclick = function (){
-                        // oder id is letters over 7 letters.
-                        let order_id = deleteButton.id.slice(7);
-                        console.log("order_id :", order_id);
-                        let order = document.getElementById(order_id);
-                        console.log("order : ", order);
-                        order.parentElement.removeChild(order);
-                        socket.emit("delete_number",order_id);
-                    };
-                    deleteButton.innerText = "Delete";
-                    currentOrder.append(deleteButton);
-
-                    document.getElementById("numberList").prepend(currentOrder);
-                    socket.emit("send_number", numberInput.innerText);
-                }
-                tts(localStorage.getItem("store-name"),numberInput.innerText);
-
+                createNumber(numberInput.innerText);
                 numberInput.innerText = '';
-
             }else if(data == "back"){
                 numberInput.innerText = numberInput.innerText.slice(0,-1);
             }else if(data == "clear") {
                 numberInput.innerText = '';
+            }else if( data == "next" ){
+                let numberListElem = document.getElementById("numberList");
+                // If there is no Number then alert.
+                if(numberListElem.firstChild.id === undefined){
+                    Toastify({
+                        text: "There is No number",
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                        stopOnFocus: false, // Prevents dismissing of toast on hover
+                        style: {
+                            padding: "2rem",
+                            fontSize: "2rem",
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                        },
+                        onClick: function(){} // Callback after click
+                    }).showToast();
+                    return ;
+                }
+                let nextNum = Number(numberListElem.firstChild.id) + 1;
+
+                // If there is number then preappend next number
+                createNumber(nextNum);
             }
             else{
                 console.log("data : ",data);
@@ -179,9 +235,53 @@ function keyClick(){
         }
     }
 }
-// else if(data == "fullscreen"){
-//     toggleFullScreen();
-// }
+// Create number & TTS
+// Exception : duplicated
+function createNumber(number){
+    // The number is duplicated then number order color is changed red.
+    if(!isDuplicatedNum(number)){
+        let currentOrder = document.createElement("div");
+        currentOrder.id = number;
+        currentOrder.classList.add("order");
+        currentOrder.innerText = number;
+
+        // repeat button
+        let repeatButton = document.createElement("button");
+        repeatButton.id = "repeat-" + number;
+        repeatButton.classList.add("repeat-order");
+        repeatButton.dataset.key = "repeat-order";
+        repeatButton.onclick = function (){
+            let order_id = repeatButton.id.slice(7);
+            let order = document.getElementById(order_id);
+            order.style.color = "red";
+            tts(localStorage.getItem("store-name"),order_id);
+        }
+        repeatButton.innerText = "repeat";
+        currentOrder.append(repeatButton);
+
+        // delete button
+        let deleteButton = document.createElement("button");
+        deleteButton.id = "delete-" + number;
+        deleteButton.classList.add("delete-order");
+        deleteButton.classList.add("key");
+        deleteButton.dataset.key = "delete-order";
+        deleteButton.onclick = function (){
+            // oder id is letters over 7 letters.
+            let order_id = deleteButton.id.slice(7);
+            console.log("order_id :", order_id);
+            let order = document.getElementById(order_id);
+            console.log("order : ", order);
+            order.parentElement.removeChild(order);
+            socket.emit("delete_number",order_id);
+        };
+        deleteButton.innerText = "Delete";
+        currentOrder.append(deleteButton);
+
+        document.getElementById("numberList").prepend(currentOrder);
+        socket.emit("send_number", number);
+    }
+    tts(localStorage.getItem("store-name"),number);
+}
 
 function audioPlay(){
     // ding dong sound
@@ -196,7 +296,10 @@ function tts(storeName, number){
         let utterance =  new SpeechSynthesisUtterance("  your number "+number+" is ready");
         const synth = window.speechSynthesis;
         utterance.rate = 0.75;
-        synth.speak(utterance);
+        let voices = window.speechSynthesis.getVoices();
+        utterance.voice = voices.filter(function(voice){ return voice.name == 'Google US English';})[0];
+        // synth.speak(utterance);
+        synth(utterance);
     },2000);
 }
 
@@ -216,6 +319,8 @@ function isDuplicatedNum(number){
     return false;
 }
 
+
+//Full Screen function
 let screenElem = document.documentElement;
 function openFullscreen() {
     if (screenElem.requestFullscreen) {
@@ -242,17 +347,48 @@ function toggleFullScreen(){
     console.log("toggle FullScreen");
     if(!document.fullscreenElement){
         openFullscreen();
+        Toastify({
+            text: "Full Screen!",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
+            style: {
+                padding: "2rem",
+                fontSize: "2rem",
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function(){} // Callback after click
+        }).showToast();
         console.log("toggle on FullScreen");
     }else{
         closeFullscreen();
         console.log("toggle off FullScreen");
+        Toastify({
+            text: "Please click Full Screen button to make fullscreen",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
+            style: {
+                padding: "2rem",
+                fontSize: "2rem",
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function(){} // Callback after click
+        }).showToast();
     }
 }
 
 
 window.onload = function (){
     initialStoreNameSetUp();
-    buttonClick();
+    settingButtonClick();
     keyClick();
+    guideModalButton();
 }
 

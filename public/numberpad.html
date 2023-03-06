@@ -8,14 +8,38 @@
     <link rel="stylesheet" href="/css/styles.css"/>
 </head>
 <body>
-    <!-- Setting pop up -->
+    <!-- full screen pop up -->
     <section class="fullScreen" id="fullScreen"></section>
 
-    <section class="modal" id="modal">
+    <section class="modal guide-modal" id="guide-modal">
+        <div class="banner">
+            <div class="banner-title">Guide</div>
+            <div class="banner-button">
+                <a class="iconButton button guide-button" data-modal="guide-modal" data-guide="close">
+                    <img class="icon" src="images/cancel_icon.png"/>
+                </a>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-col guide-content">
+                <p>Please check TV monitor is on and connected with Tablet</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="iconButton button guide-button" data-guide="next">
+                Yes, It is connected
+            </button>
+            <button type="button" class="iconButton button guide-button" data-guide="monitor">
+                No, It is not
+            </button>
+        </div>
+    </section>
+    <!-- Store name Setting modal  -->
+    <section class="modal" id="setting-modal">
         <div class="banner">
             <div class="banner-title">Setting</div>
             <div class="banner-button">
-                <a class="iconButton button close-button" id="close" data-key="close">
+                <a class="iconButton button close-button" id="close" data-modal="setting-modal" data-key="close">
                     <img class="icon" src="images/cancel_icon.png"/>
                 </a>
             </div>
@@ -25,7 +49,6 @@
                 <label for="store-name" class="setting-label">Store Name :</label>
                 <input type="text" class="setting-input" id="store-name">
             </div>
-
         </div>
         <div class="modal-footer">
             <button type="button" id="save" class="iconButton button save-button" data-key="save">
@@ -41,7 +64,8 @@
     <section class="banner">
         <div class="storeName" id="storeName">Example</div>
         <div class="banner-button">
-            <button type="button" class="fullscreen-button button" id="fullscreen-button" data-key="fullscreen" onclick="toggleFullScreen()">Full Screen</button>
+            <button type="button" class="button help-button" data-key="help" >Help</button>
+            <button type="button" class="fullscreen-button button" id="fullscreen-button" data-key="fullscreen" >Full Screen</button>
             <a class="iconButton button settingButton" id="setting" data-key="setting">
                 <img class="icon" src="images/settings.png"/>
             </a>
@@ -57,7 +81,8 @@
     <section class="numbering">
         <div class="numberInput">
             <span class="inputNum" id="numberInput"></span>
-            <button class="key back-key" data-key="back">Back</button>
+            <button class="key next-key" data-key= "next">Next+</button>
+            <button class="key back-key" data-key= "back">Back</button>
         </div>
         <div class="numberDial">
             <div class="row">
@@ -85,6 +110,8 @@
 
 <!--<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>-->
     <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="js/numberpad.js"></script>
 </body>
 </html>
