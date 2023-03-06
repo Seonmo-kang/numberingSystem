@@ -156,4 +156,5 @@ function toggleFullScreen(){
 
 window.onload = function (){
     setBoardStoreName();
+    openModal();
 }
