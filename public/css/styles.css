@@ -226,6 +226,7 @@ button {
 }
 
 .customer-banner {
+  position: relative;
   height: 200px;
 }
 .customer-banner .customer-storeName {
@@ -245,7 +246,9 @@ button {
 }
 
 .board-number-list {
+  top: 200px;
   display: flex;
+  height: calc(100vh - 200px);
   padding: 1rem;
   align-items: center;
   text-align: center;
@@ -257,10 +260,42 @@ button {
 
 .board-order {
   width: 30%;
-  margin: 1rem 2.5rem;
-  padding: 1.5rem 2.5rem;
-  border-bottom: 3px black solid;
-  font-size: 20rem;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  font-size: 30rem;
+}
+
+/* one item */
+.board-order:first-child:nth-last-child(1) {
+  /* -or- .board-order:only-child { */
+  width: 100%;
+}
+
+/* two items */
+.board-order:first-child:nth-last-child(2),
+.board-order:first-child:nth-last-child(2) ~ .board-order {
+  width: 50%;
+}
+
+/* three items */
+.board-order:first-child:nth-last-child(3),
+.board-order:first-child:nth-last-child(3) ~ .board-order {
+  width: 33.3333%;
+  font-size: 25rem;
+}
+
+/* four items */
+.board-order:first-child:nth-last-child(4),
+.board-order:first-child:nth-last-child(4) ~ .board-order {
+  width: 50%;
+}
+
+/* five items */
+.board-order:first-child:nth-last-child(5),
+.board-order:first-child:nth-last-child(5) ~ .board-order {
+  width: 33.3%;
 }
 
 .modal-content {

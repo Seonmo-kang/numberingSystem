@@ -9,6 +9,7 @@ $numberingLeft : $numberListWidth;  // Compute position left
 $numberInputHeight : 150px;
 $numberBorderColor : #f9f9f9;
 $bannerColor : cornflowerblue;
+$bannerHeight : 100px;
 
 *, ::before, ::after{
   margin:0;
@@ -33,7 +34,7 @@ button{
   left:0;
   top:0;
   width:100%;
-  height: 100px;
+  height: $bannerHeight;
   display:flex;
   text-align:center;
   background-color: $bannerColor;
@@ -262,9 +263,11 @@ button{
 }
 
 // Customer part - board
+$customerBannerHeight : 200px;
 
 .customer-banner{
-  height: 200px;
+  position: relative;
+  height: $customerBannerHeight;
   & .customer-storeName{
     font-size: 10rem;
   }
@@ -282,8 +285,9 @@ button{
 }
 .board-number-list{
   //position: absolute;
-  //top: 100px;
+  top: $customerBannerHeight;
   display: flex;
+  height: calc(100vh - $customerBannerHeight);
   padding: 1rem;
   align-items: center;
   text-align: center;
@@ -294,12 +298,42 @@ button{
 
 }
 .board-order{
-  //display:flex;
   width: 30%;
-  margin: 1rem 2.5rem;
-  padding: 1.5rem 2.5rem;
-  border-bottom: 3px black solid;
-  font-size: 20rem;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  font-size: 30rem;
+}
+/* one item */
+.board-order:first-child:nth-last-child(1) {
+  /* -or- .board-order:only-child { */
+  width: 100%;
+}
+
+/* two items */
+.board-order:first-child:nth-last-child(2),
+.board-order:first-child:nth-last-child(2) ~ .board-order {
+  width: 50%;
+}
+
+/* three items */
+.board-order:first-child:nth-last-child(3),
+.board-order:first-child:nth-last-child(3) ~ .board-order {
+  width: 33.3333%;
+  font-size: 25rem;
+}
+
+/* four items */
+.board-order:first-child:nth-last-child(4),
+.board-order:first-child:nth-last-child(4) ~ .board-order {
+  width: 50%;
+}
+
+/* five items */
+.board-order:first-child:nth-last-child(5),
+.board-order:first-child:nth-last-child(5) ~ .board-order {
+  width: 33.3%;
 }
 
 .modal-content{
