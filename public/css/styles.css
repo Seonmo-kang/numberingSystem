@@ -257,9 +257,10 @@ button {
 
 .board-order {
   width: 30%;
-  margin: 1rem 3rem;
-  padding: 1.5rem;
+  margin: 1rem 2.5rem;
+  padding: 1.5rem 2.5rem;
   border-bottom: 3px black solid;
+  font-size: 20rem;
 }
 
 .modal-content {
