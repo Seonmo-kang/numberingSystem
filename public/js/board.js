@@ -67,58 +67,59 @@ document.addEventListener("click",()=>{
 
 let modalFullScreen = document.getElementById("fullScreen");
 let modalElem = document.getElementById("modal-content");
-function openModal(){
-    if(document.fullscreenElement){
-        return ;
-    }
-    modalFullScreen.style.display = "block";
-    modalElem.style.display = "flex";
-    console.log("openModal lunched");
-}
+// function openModal(){
+//     if(document.fullscreenElement){
+//         return ;
+//     }
+//     modalFullScreen.style.display = "block";
+//     modalElem.style.display = "flex";
+//     console.log("openModal lunched");
+// }
 
-modalFullScreen.onclick = () =>{
-    let key = modalFullScreen.getAttribute("data-key");
-    if(key == "screen"){
-        let modalContent = document.getElementById("modal-content");
-        modalContent.innerText = "Press following shortcut";
-        let imgElem = document.createElement("img");
-        imgElem.src = "./images/shortcut.png";
-        imgElem.classList.add("modal-img");
-        modalContent.append(imgElem);
-        modalFullScreen.setAttribute("data-key","shortcut");
-
-    }
-}
-modalElem.onclick = () =>{
-    let key = modalFullScreen.getAttribute("data-key");
-    if(key == "screen"){
-        let modalContent = document.getElementById("modal-content");
-        modalContent.innerText = "Press following shortcut";
-        let imgElem = document.createElement("img");
-        imgElem.src = "./images/shortcut.png";
-        imgElem.classList.add("modal-img");
-        modalContent.append(imgElem);
-        modalFullScreen.setAttribute("data-key","shortcut");
-
-    }
-}
+// Click Modal then guide modal comes and full screen
+// modalFullScreen.onclick = () =>{
+//     let key = modalFullScreen.getAttribute("data-key");
+//     if(key == "screen"){
+//         let modalContent = document.getElementById("modal-content");
+//         modalContent.innerText = "Press following shortcut";
+//         let imgElem = document.createElement("img");
+//         imgElem.src = "./images/shortcut.png";
+//         imgElem.classList.add("modal-img");
+//         modalContent.append(imgElem);
+//         modalFullScreen.setAttribute("data-key","shortcut");
+//
+//     }
+// }
+// modalElem.onclick = () =>{
+//     let key = modalFullScreen.getAttribute("data-key");
+//     if(key == "screen"){
+//         let modalContent = document.getElementById("modal-content");
+//         modalContent.innerText = "Press following shortcut";
+//         let imgElem = document.createElement("img");
+//         imgElem.src = "./images/shortcut.png";
+//         imgElem.classList.add("modal-img");
+//         modalContent.append(imgElem);
+//         modalFullScreen.setAttribute("data-key","shortcut");
+//
+//     }
+// }
 
 // Short cut detect set
 // modalFullScreen is full then It works.
 // key down detector
-let keysPressed = {};
-document.addEventListener('keydown', (event) => {
-    keysPressed[event.key] = true;
-    console.log("event.key : ",event.key);
-    if ( document.fullscreenElement && keysPressed['Meta'] && keysPressed['Shift'] && keysPressed['ArrowRight']) {
-        modalFullScreen.style.display = "none";
-        modalElem.style.display = "none";
-    }
-});
-// keyup detector
-document.addEventListener('keyup', (event) => {
-    delete keysPressed[event.key];
-});
+// let keysPressed = {};
+// document.addEventListener('keydown', (event) => {
+//     keysPressed[event.key] = true;
+//     console.log("event.key : ",event.key);
+//     if ( document.fullscreenElement && keysPressed['Meta'] && keysPressed['Shift'] && keysPressed['ArrowRight']) {
+//         modalFullScreen.style.display = "none";
+//         modalElem.style.display = "none";
+//     }
+// });
+// // keyup detector
+// document.addEventListener('keyup', (event) => {
+//     delete keysPressed[event.key];
+// });
 
 
 screenElem = document.documentElement;
@@ -154,7 +155,9 @@ function toggleFullScreen(){
     }
 }
 
+modalElem.style.display = "none";
+
 window.onload = function (){
     setBoardStoreName();
-    openModal();
+    // openModal();
 }
