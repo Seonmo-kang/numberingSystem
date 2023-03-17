@@ -323,6 +323,7 @@ function createNumber(number){
     tts(localStorage.getItem("store-name"),number);
 }
 
+// Ding Dong Sound
 function audioPlay(){
     // ding dong sound
     let audioElement = new Audio("../sound/ding-dong-sound.mp3");
@@ -332,22 +333,25 @@ function audioPlay(){
 /*
 * It seems that the voices array is empty on the first call. From what I read it has something to do with an asynchronous call to load the voices. So, it's always empty the first time it's called. For me this did the magic:
 * */
-let speech_voices;
-if ('speechSynthesis' in window) {
-    speech_voices = window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = function() {
-        speech_voices = window.speechSynthesis.getVoices();
-    };
-}
+
 // order announce
 function tts(storeName, number){
     audioPlay();
+    let speech_voices;
+    if ('speechSynthesis' in window) {
+        speech_voices = window.speechSynthesis.getVoices();
+        window.speechSynthesis.onvoiceschanged = function() {
+            speech_voices = window.speechSynthesis.getVoices();
+        };
+        console.log("SpeechSynthesis is in window");
+    }
     setTimeout(()=>{
         // let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
         let utterance =  new SpeechSynthesisUtterance("  your order number "+number+" is ready");
-        utterance.rate = 0.75;
+        utterance.rate = 0.8;
         // let voices = window.speechSynthesis.getVoices();
         utterance.voice = speech_voices.filter(function(voice){ return voice.name == 'Google US English'; })[0];
+        console.log("Speech voice : ",speech_voices.filter(function(voice){ return voice.name == 'Google US English'; })[0]);
         speechSynthesis.speak(utterance);
     },2000);
 }
