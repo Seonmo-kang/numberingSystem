@@ -336,7 +336,7 @@ function audioPlay(){
 
 // order announce
 function tts(storeName, number){
-    audioPlay();
+    // Print voices list in window
     let speech_voices;
     if ('speechSynthesis' in window) {
         speech_voices = window.speechSynthesis.getVoices();
@@ -345,6 +345,8 @@ function tts(storeName, number){
         };
         console.log("SpeechSynthesis is in window");
     }
+
+    audioPlay();
     setTimeout(()=>{
         // let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
         let utterance =  new SpeechSynthesisUtterance("  your order number "+number+" is ready");
