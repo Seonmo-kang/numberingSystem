@@ -1,6 +1,8 @@
 const socket = io("http://localhost:3000");
 console.log(socket);
 
+let orderList = [];
+let orderDetect;
 // Number key listener
 // Print number on numberInput element
 // socket.emit("send_number", data);
@@ -96,7 +98,6 @@ function setStoreName(){
         let closeButton = document.getElementById("close");
         closeButton.disabled = false;
         window.localStorage.setItem("store-name",storeName);
-        localStorage.setItem("store-name",storeName);
         storeBanner.innerText = storeName;
         socket.emit("send_storeName",storeName);
     }
@@ -290,11 +291,12 @@ function createNumber(number){
         repeatButton.id = "repeat-" + number;
         repeatButton.classList.add("repeat-order");
         repeatButton.dataset.key = "repeat-order";
-        repeatButton.onclick = function (){
+        repeatButton.onclick = function (e){
             let order_id = repeatButton.id.slice(7);
             let order = document.getElementById(order_id);
             order.style.color = "red";
-            tts(localStorage.getItem("store-name"),order_id);
+            // tts(localStorage.getItem("store-name"),order_id);
+            orderList.push({number : order_id, operation: "repeat" });
         }
         repeatButton.innerText = "repeat";
         currentOrder.append(repeatButton);
@@ -318,45 +320,73 @@ function createNumber(number){
         currentOrder.append(deleteButton);
 
         document.getElementById("numberList").prepend(currentOrder);
-        socket.emit("send_number", number);
     }
-    tts(localStorage.getItem("store-name"),number);
+    // tts(localStorage.getItem("store-name"),number);
+    orderList.push({"number": number, operation: "add"});
 }
 
 // Ding Dong Sound
 function audioPlay(){
+    return new Promise((res,rej)=>{
+        let audioElement = new Audio("../sound/ding-dong-sound.mp3");
+        audioElement.play();
+        audioElement.onplay = ()=>{
+            clearInterval(orderDetect);
+        }
+        audioElement.addEventListener("ended",(e)=>{
+            res(console.log("AudioPlay stoped"));
+        });
+    })
     // ding dong sound
-    let audioElement = new Audio("../sound/ding-dong-sound.mp3");
-    audioElement.play();
 }
 
-/*
-* It seems that the voices array is empty on the first call. From what I read it has something to do with an asynchronous call to load the voices. So, it's always empty the first time it's called. For me this did the magic:
-* */
-
-// order announce
-function tts(storeName, number){
-    // Print voices list in window
-    let speech_voices;
+let speech_voices;
+function setVoice(){
     if ('speechSynthesis' in window) {
-        speech_voices = window.speechSynthesis.getVoices();
         window.speechSynthesis.onvoiceschanged = function() {
             speech_voices = window.speechSynthesis.getVoices();
         };
         console.log("SpeechSynthesis is in window");
     }
+}
+/*
+* It seems that the voices array is empty on the first call. From what I read it has something to do with an asynchronous call to load the voices. So, it's always empty the first time it's called. For me this did the magic:
+* */
 
-    audioPlay();
-    setTimeout(()=>{
+/*
+ order announce if order is on orderList
+ send order number to board to announce order.
+*/
+async function tts(){
+    // console.log("tts active");
+    // console.log("orderList :",orderList);
+
+    // Play tts if order is in order List
+    if(orderList.length > 0){
+        // get orderList.shift first because of await audio play function
+        let orderObj = orderList.shift();
+        let number = orderObj['number'];
+        let utterance =  new SpeechSynthesisUtterance("  your order number "+ number +" is ready");
+        //Send number and operation first for board page.
+        socket.emit("send_number", orderObj);
+        await audioPlay();
         // let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
-        let utterance =  new SpeechSynthesisUtterance("  your order number "+number+" is ready");
         utterance.rate = 0.8;
         // let voices = window.speechSynthesis.getVoices();
         utterance.voice = speech_voices.filter(function(voice){ return voice.name == 'Google US English'; })[0];
         console.log("Speech voice : ",speech_voices.filter(function(voice){ return voice.name == 'Google US English'; })[0]);
         speechSynthesis.speak(utterance);
-    },2000);
+        utterance.onend = (e) => {
+            if (orderList.length > 0) {
+                tts();
+            }
+            orderDetect = setInterval(tts, 1000);
+        }
+
+    }
 }
+
+orderDetect = setInterval(tts,1000);
 
 // Duplicated order number
 function isDuplicatedNum(number){
@@ -445,5 +475,6 @@ window.onload = function (){
     settingButtonClick();
     keyClick();
     guideModalButton();
+    setVoice();
 }
 

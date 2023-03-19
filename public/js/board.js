@@ -4,20 +4,25 @@ console.log("Test");
 console.log(socket);
 
 socket.on("connect",()=>{
-    console.log("Successfully connected!");
+    console.log("Board page Successfully connected!");
 })
 // Receive adding number
 // event by send button on numbering
 //socket.on('send_number',(data)=>{});
+// data : number, operation
 socket.on("send_number_to_board",(data) => {
     console.log("send_number_to_board :", data);
-    alertNumber(data);
-    // Add element with data on id
+    alertNumber(data.number);
+    // Skip add number on board list
+    if(data.operation === "repeat"){
+        return;
+    }
+    // Add element with data on id if it is not repeat
     let currentOrder = document.createElement("div");
     let numberList = document.getElementById("numberList");
-    currentOrder.id = data;
+    currentOrder.id = data.number;
     currentOrder.classList.add("board-order");
-    currentOrder.innerText = data;
+    currentOrder.innerText = data.number;
     numberList.prepend(currentOrder);
 })
 // Receive deleting number
@@ -67,6 +72,7 @@ document.addEventListener("click",()=>{
 
 let modalFullScreen = document.getElementById("fullScreen");
 let modalElem = document.getElementById("modal-content");
+
 // function openModal(){
 //     if(document.fullscreenElement){
 //         return ;
