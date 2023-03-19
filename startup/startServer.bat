@@ -1,0 +1,1 @@
+start C:\numberingSystem-dev\node-v18.14.2-win-x64\node.exe C:\numberingSystem-dev\server.js
