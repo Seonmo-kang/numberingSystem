@@ -9,9 +9,11 @@ const path = require('path');
 
 //Path
 const clientPath = path.join(__dirname,'public');
-// .css files are static files. you don't serve static files as a express middleware
+// .css files are static files. you don't serve static files as an express middleware
 // Add following middleware to serve
 app.use(express.static(path.join(clientPath)));
+// Add node_modules path for access toastify
+app.use('/static', express.static('node_modules'));
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
