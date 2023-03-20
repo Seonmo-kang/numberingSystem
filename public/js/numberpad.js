@@ -469,6 +469,9 @@ function toggleFullScreen(){
     }
 }
 
+function initialToastify(){
+
+}
 
 window.onload = function (){
     initialStoreNameSetUp();
@@ -476,5 +479,6 @@ window.onload = function (){
     keyClick();
     guideModalButton();
     setVoice();
+    initialToastify();
 }
 
