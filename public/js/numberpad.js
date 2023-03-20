@@ -320,9 +320,12 @@ function createNumber(number){
         currentOrder.append(deleteButton);
 
         document.getElementById("numberList").prepend(currentOrder);
+        orderList.push({"number": number, operation: "add"});
+    }else{
+        // Order number is duplicated
+        orderList.push({"number": number, operation: "repeat"});
     }
-    // tts(localStorage.getItem("store-name"),number);
-    orderList.push({"number": number, operation: "add"});
+
 }
 
 // Ding Dong Sound
