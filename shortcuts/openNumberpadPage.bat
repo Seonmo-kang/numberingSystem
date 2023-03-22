@@ -1,2 +1,2 @@
 cd C:\numberingSystem-dev
-pyt startNumberpadPage.py
+py startNumberpadPage.py
