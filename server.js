@@ -51,7 +51,10 @@ io.on('connection', (socket) => {
         console.log("send_storeName function Test : ",data);
         socket.broadcast.emit("send_storeName_to_board",data);
     })
-
+    socket.on('send_delete_all_orders',(data)=>{
+        console.log('send_delete_all_orders :', data);
+        socket.broadcast.emit("send_delete_all_orders_to_board",data);
+    })
 
     socket.on('error',(error)=>{
         console.error(error);
