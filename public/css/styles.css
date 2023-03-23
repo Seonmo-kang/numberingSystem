@@ -264,19 +264,21 @@ button {
   margin: auto;
   justify-content: center;
   align-items: center;
-  font-size: 30rem;
+  font-size: 20rem;
 }
 
 /* one item */
 .board-order:first-child:nth-last-child(1) {
   /* -or- .board-order:only-child { */
   width: 100%;
+  font-size: 35rem;
 }
 
 /* two items */
 .board-order:first-child:nth-last-child(2),
 .board-order:first-child:nth-last-child(2) ~ .board-order {
   width: 50%;
+  font-size: 30rem;
 }
 
 /* three items */
@@ -290,12 +292,14 @@ button {
 .board-order:first-child:nth-last-child(4),
 .board-order:first-child:nth-last-child(4) ~ .board-order {
   width: 50%;
+  font-size: 20rem;
 }
 
 /* five items */
 .board-order:first-child:nth-last-child(5),
 .board-order:first-child:nth-last-child(5) ~ .board-order {
   width: 33.3%;
+  font-size: 20rem;
 }
 
 .modal-content {
