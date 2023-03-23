@@ -235,7 +235,12 @@ function keyClick(){
             }else if(data == "back"){
                 numberInput.innerText = numberInput.innerText.slice(0,-1);
             }else if(data == "clear") {
-                numberInput.innerText = '';
+                // Clear all order list on Numberpad, Board page
+                let numberListElem = document.getElementById("numberList");
+                while(numberListElem.firstChild){
+                    numberListElem.removeChild(numberListElem.firstChild);
+                }
+                socket.emit('send_delete_all_orders',"");
             }else if( data == "next" ){
                 let numberListElem = document.getElementById("numberList");
                 // If there is no Number then alert.

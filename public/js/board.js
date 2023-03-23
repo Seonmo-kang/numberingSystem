@@ -45,6 +45,15 @@ socket.on('send_storeName_to_board',(data)=>{
     storeBannerElement.innerText = data;
 });
 
+socket.on('send_delete_all_orders_to_board',(data)=>{
+    console.log('send_delete_all_orders :', data);
+    // remove all element on board list
+    let numberListElem = document.getElementById("numberList");
+    while(numberListElem.firstChild){
+        numberListElem.removeChild(numberListElem.firstChild);
+    }
+})
+
 // set storeName from localStorage
 function setBoardStoreName(){
     let storeBannerElement = document.getElementById("storeName");
