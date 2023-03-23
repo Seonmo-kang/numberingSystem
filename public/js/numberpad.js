@@ -337,7 +337,7 @@ function audioPlay(){
             clearInterval(orderDetect);
         }
         audioElement.addEventListener("ended",(e)=>{
-            res(console.log("AudioPlay stoped"));
+            res(console.log("AudioPlay stopped"));
         });
     })
     // ding dong sound

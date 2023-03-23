@@ -24,7 +24,6 @@ body {
 
 button{
   background-color: #0d6efd;
-  padding: 2rem;
   font-size: 1.5rem;
 }
 
@@ -176,7 +175,6 @@ button{
   align-items: center;
   font-size: 7rem;
   letter-spacing: 1rem;
-  //background-color: lightblue;
   overflow: scroll;
   & .order{
     display: flex;
@@ -191,6 +189,7 @@ button{
     & .repeat-order{
       @extend .delete-order;
       margin-left: auto;
+      margin-right: 1rem;
       background-color: darkgoldenrod;
 
     }
