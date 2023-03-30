@@ -7,6 +7,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const path = require('path');
 
+
 //Path
 const clientPath = path.join(__dirname,'public');
 // .css files are static files. you don't serve static files as an express middleware
@@ -26,9 +27,20 @@ app.get('/numberpad', (req, res) => {
     res.sendFile(clientPath + '/numberpad.html');
 });
 
+global.
+
 io.on('connection', (socket) => {
     console.log('a user connected');
     console.log(socket.id);
+    //Request store name from board page to numberpad
+    //if storename is null then print error
+    socket.on('request_store_name',(data)=>{
+        socket.on('received_store_name')
+        socket.broadcast.emit("send_storeName_to_board",data);
+    });
+    socket.on('received_store_name',(data)=>{
+
+    })
 
     //Get number from numberpad page
     //Send to every socket to notify number

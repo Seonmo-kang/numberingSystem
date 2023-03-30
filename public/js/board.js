@@ -5,6 +5,7 @@ console.log(socket);
 
 socket.on("connect",()=>{
     console.log("Board page Successfully connected!");
+    socket.emit("request_store_name","request store name!");
 })
 // Receive adding number
 // event by send button on numbering
