@@ -53,51 +53,49 @@ def monitor_areas():
     retval.append(data)
   return retval
 
+###
+# Board page opening
+###
+windowUsername = os.getenv('username')
+USERDATAPATH = r"C:/Temp/ChromeProfile"
+
 def openBoardPage(w,h):
   try:
     options = Options()
     options.add_experimental_option('excludeSwitches', ['enable-automation'])
     options.add_experimental_option("detach", True)
+
     # Board page
     browser2 = webdriver.Chrome(options= options)
     browser2.set_window_position(w,h)
     browser2.get('http://localhost:3000/board')
     browser2.maximize_window()
     browser2.fullscreen_window()
-  except:
-    print("open board page has a problem")
-
+  except Exception as e: print(e)
+    
+###
+# Numberpade page opening
+###
 def openNumberpadPage(w,h):
   try:
     options = Options()
     options.add_experimental_option('excludeSwitches', ['enable-automation'])
     options.add_experimental_option("detach", True)
+    #Set chrome profile
+    options.add_argument(f"--user-data-dir={USERDATAPATH}")
+    options.add_argument(f'--profile-directory=Default')
+
     # Numberpad page
     browser = webdriver.Chrome(options= options)
     browser.set_window_position(w,h)
     browser.get('http://localhost:3000/numberpad')
     browser.maximize_window()
-  except:
-    print("open numberpad page has a problem")
+  except Exception as e: print(e)
 
 if __name__ == "__main__":
-    # Remove infobar on web explorer
-    # options = Options()
-    # options.add_experimental_option('excludeSwitches', ['enable-automation'])
     detected_monitors = monitor_areas()
     openNumberpadPage(detected_monitors[0][0],detected_monitors[0][1])
     openBoardPage(detected_monitors[1][0],detected_monitors[1][1])
-    # # Numberpad page
-    # browser = webdriver.Chrome(options= options)
-    # browser.set_window_position(0,0)
-    # browser.get('http://localhost:3000/numberpad')
-    # browser.maximize_window()
-    # # Board page
-    # browser2 = webdriver.Chrome(options= options)
-    # browser2.set_window_position(1920,113)
-    # browser2.get('http://localhost:3000/board')
-    # browser2.maximize_window()
-    # browser2.fullscreen_window()
     os.system("pause")
     print(monitor_areas())
     
