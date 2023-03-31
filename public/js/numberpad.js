@@ -45,10 +45,15 @@ function initialSetUp(){
         cancelButton.disabled = true;
         cancelButton.style.background = "gray";
     }else{
+        let store_name = localStorage.getItem("store-name")
+        //Set store name on banner
         let storeBanner = document.getElementById("storeName");
-        storeBanner.innerText = localStorage.getItem("store-name");
+        storeBanner.innerText = store_name;
+        // Set store name on setting input
         let storeNameInput = document.getElementById("store-name");
-        storeNameInput.value = localStorage.getItem("store-name");
+        storeNameInput.value = store_name;
+        // Send storeName if localStorage is not null
+        socket.emit("send_storeName",store_name);
     }
     // Fill Speech order
     let orderSpeechInput = document.getElementById("order-speech");

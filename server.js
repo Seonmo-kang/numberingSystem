@@ -27,7 +27,7 @@ app.get('/numberpad', (req, res) => {
     res.sendFile(clientPath + '/numberpad.html');
 });
 
-global.
+global.storeName = null;
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -35,12 +35,10 @@ io.on('connection', (socket) => {
     //Request store name from board page to numberpad
     //if storename is null then print error
     socket.on('request_store_name',(data)=>{
-        socket.on('received_store_name')
-        socket.broadcast.emit("send_storeName_to_board",data);
+        console.log("request_store_name from board page: ",storeName);
+        if(storeName!==null)
+            socket.broadcast.emit("send_storeName_to_board",storeName);
     });
-    socket.on('received_store_name',(data)=>{
-
-    })
 
     //Get number from numberpad page
     //Send to every socket to notify number
@@ -62,6 +60,8 @@ io.on('connection', (socket) => {
     socket.on('send_storeName', (data)=> {
         console.log("send_storeName function Test : ",data);
         socket.broadcast.emit("send_storeName_to_board",data);
+        storeName = data;
+        console.log("storename is ",storeName);
     })
     socket.on('send_delete_all_orders',(data)=>{
         console.log('send_delete_all_orders :', data);
