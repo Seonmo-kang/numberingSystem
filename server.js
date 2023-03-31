@@ -7,7 +7,6 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const path = require('path');
 
-
 //Path
 const clientPath = path.join(__dirname,'public');
 // .css files are static files. you don't serve static files as an express middleware
@@ -27,7 +26,7 @@ app.get('/numberpad', (req, res) => {
     res.sendFile(clientPath + '/numberpad.html');
 });
 
-global.storeName = null;
+global.storeName = null; 
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -61,7 +60,6 @@ io.on('connection', (socket) => {
         console.log("send_storeName function Test : ",data);
         socket.broadcast.emit("send_storeName_to_board",data);
         storeName = data;
-        console.log("storename is ",storeName);
     })
     socket.on('send_delete_all_orders',(data)=>{
         console.log('send_delete_all_orders :', data);
