@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
     //if storename is null then print error
     socket.on('request_store_name',(data)=>{
         console.log("request_store_name from board page: ",storeName);
-        if(storeName!==null)
+        if(storeName!=null)
             socket.broadcast.emit("send_storeName_to_board",storeName);
     });
 
@@ -59,8 +59,9 @@ io.on('connection', (socket) => {
     //Send to every socket to change store name
     socket.on('send_storeName', (data)=> {
         console.log("send_storeName function Test : ",data);
-        socket.broadcast.emit("send_storeName_to_board",data);
         storeName = data;
+        socket.broadcast.emit("send_storeName_to_board",data);
+
         console.log("storename is ",storeName);
     })
     socket.on('send_delete_all_orders',(data)=>{
