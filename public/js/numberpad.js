@@ -401,6 +401,7 @@ function setVoice(){
     if ('speechSynthesis' in window) {
         window.speechSynthesis.onvoiceschanged = function() {
             speech_voices = window.speechSynthesis.getVoices();
+            console.log(speech_voices);
         };
         console.log("SpeechSynthesis is in window");
     }
@@ -429,8 +430,9 @@ async function tts(){
         // let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
         utterance.rate = 0.8;
         // let voices = window.speechSynthesis.getVoices();
-        utterance.voice = speech_voices.filter(function(voice){ return voice.name == 'Google US English'; })[0];
-        console.log("Speech voice : ",speech_voices.filter(function(voice){ return voice.name == 'Google US English'; })[0]);
+        // MicroSoft doesn't have Google US English
+        utterance.voice = speech_voices.filter(function(voice){ return voice.name == 'Microsoft Zira - English (United States)'; })[0];
+        console.log("Speech voice : ",speech_voices.filter(function(voice){ return voice.name == 'Microsoft Zira - English (United States)'; })[0]);
         speechSynthesis.speak(utterance);
         utterance.onend = (e) => {
             if (orderList.length > 0) {
