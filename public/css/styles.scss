@@ -152,8 +152,17 @@ button{
       background-color: brown;
     }
   }
-
 }
+// setting description ( order-speech )
+.description{
+  font-size : 0.9rem;
+  text-align: center;
+  font-weight: 700;
+}
+input::-webkit-input-placeholder{
+  opacity: 0.4;
+}
+
 .fullScreen {
   position: absolute;
   display: none;

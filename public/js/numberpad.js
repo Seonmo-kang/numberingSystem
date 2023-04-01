@@ -3,6 +3,10 @@ console.log(socket);
 
 let orderList = [];
 let orderDetect;
+socket.on("resend_storeName", async ()=>{
+    if(window.localStorage.getItem("store-name")!=null)
+        await socket.emit("send_storeName",window.localStorage.getItem("store-name"));
+})
 // Number key listener
 // Print number on numberInput element
 // socket.emit("send_number", data);
@@ -20,7 +24,7 @@ let orderDetect;
 //socket.emit('send_storeName',{});
 
 // if localstorage doesn't have store name then open setting pop up window
-function initialStoreNameSetUp(){
+function initialSetUp(){
     if(localStorage.getItem("store-name") == null){
         Toastify({
             text: "Please set up Store name!",
@@ -45,17 +49,28 @@ function initialStoreNameSetUp(){
         cancelButton.disabled = true;
         cancelButton.style.background = "gray";
     }else{
+        let store_name = localStorage.getItem("store-name")
+        //Set store name on banner
         let storeBanner = document.getElementById("storeName");
-        storeBanner.innerText = localStorage.getItem("store-name");
+        storeBanner.innerText = store_name;
+        // Set store name on setting input
+        let storeNameInput = document.getElementById("store-name");
+        storeNameInput.value = store_name;
+        // Send storeName if localStorage is not null
+        socket.emit("send_storeName",store_name);
     }
+    // Fill Speech order
+    let orderSpeechInput = document.getElementById("order-speech");
+    orderSpeechInput.value = localStorage.getItem("order-speech")==null ? "" : localStorage.getItem("order-speech");
 }
+
 function setStoreName(){
     let storeNameInput = document.getElementById("store-name");
     let storeBanner = document.getElementById("storeName");
     let storeName = storeNameInput.value;
     console.log("storeName :",storeName);
     // exception : Store Name is empty
-    if(storeName.innerText==""){
+    if(storeName==""){
         // alert
         console.log("storeName is empty. Alert should be popped up");
         Toastify({
@@ -101,6 +116,12 @@ function setStoreName(){
         storeBanner.innerText = storeName;
         socket.emit("send_storeName",storeName);
     }
+}
+function setOrderSpeech(){
+    let orderSpeechInput = document.getElementById("order-speech");
+    let orderSpeechValue = orderSpeechInput.value;
+    if(orderSpeechValue!==null)
+        localStorage.setItem("order-speech",orderSpeechValue);
 }
 function hasFrontSpace(string){
     const re = new RegExp("^[a-zA-Z]+\\s?");
@@ -183,6 +204,7 @@ function settingButtonClick(){
                     break;
                 case "save":
                     setStoreName();
+                    setOrderSpeech();
                     modalControl("setting-modal","none");
                     break;
                 case "cancel":
@@ -368,13 +390,13 @@ function setVoice(){
 async function tts(){
     // console.log("tts active");
     // console.log("orderList :",orderList);
-
+    let orderSpeech = localStorage.getItem('order-speech')===null ? "" : localStorage.getItem('order-speech') ;
     // Play tts if order is in order List
     if(orderList.length > 0){
         // get orderList.shift first because of await audio play function
         let orderObj = orderList.shift();
         let number = orderObj['number'];
-        let utterance =  new SpeechSynthesisUtterance("  your order number "+ number +" is ready");
+        let utterance =  new SpeechSynthesisUtterance( orderSpeech+ " " + number);
         //Send number and operation first for board page.
         socket.emit("send_number", orderObj);
         await audioPlay();
@@ -482,7 +504,7 @@ function initialToastify(){
 }
 
 window.onload = function (){
-    initialStoreNameSetUp();
+    initialSetUp();
     settingButtonClick();
     keyClick();
     guideModalButton();

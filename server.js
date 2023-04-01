@@ -7,6 +7,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const path = require('path');
 
+
 //Path
 const clientPath = path.join(__dirname,'public');
 // .css files are static files. you don't serve static files as an express middleware
@@ -26,9 +27,17 @@ app.get('/numberpad', (req, res) => {
     res.sendFile(clientPath + '/numberpad.html');
 });
 
+global.storeName = null;
+
 io.on('connection', (socket) => {
     console.log('a user connected');
     console.log(socket.id);
+    //Request store name from board page to numberpad  via  server
+    //if storename is null then print error
+    socket.on('request_store_name',async (data)=>{
+        // request sending storename to numberpad
+        io.emit("resend_storeName",storeName);
+    });
 
     //Get number from numberpad page
     //Send to every socket to notify number
@@ -49,7 +58,10 @@ io.on('connection', (socket) => {
     //Send to every socket to change store name
     socket.on('send_storeName', (data)=> {
         console.log("send_storeName function Test : ",data);
+        global.storeName = data;
         socket.broadcast.emit("send_storeName_to_board",data);
+
+        console.log("storename is ",storeName);
     })
     socket.on('send_delete_all_orders',(data)=>{
         console.log('send_delete_all_orders :', data);
