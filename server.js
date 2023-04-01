@@ -32,14 +32,11 @@ global.storeName = null;
 io.on('connection', (socket) => {
     console.log('a user connected');
     console.log(socket.id);
-    //Request store name from board page to numberpad
+    //Request store name from board page to numberpad  via  server
     //if storename is null then print error
-    socket.on('request_store_name',(data)=>{
-        console.log("request_store_name from board page: ",storeName);
-        if(storeName!=null) {
-            socket.broadcast.emit("send_storeName_to_board",storeName);
-            console.log("request_store_name from board page: ",storeName);
-        }
+    socket.on('request_store_name',async (data)=>{
+        // request sending storename to numberpad
+        io.emit("resend_storeName",storeName);
     });
 
     //Get number from numberpad page
@@ -61,7 +58,7 @@ io.on('connection', (socket) => {
     //Send to every socket to change store name
     socket.on('send_storeName', (data)=> {
         console.log("send_storeName function Test : ",data);
-        storeName = data;
+        global.storeName = data;
         socket.broadcast.emit("send_storeName_to_board",data);
 
         console.log("storename is ",storeName);

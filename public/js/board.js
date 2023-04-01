@@ -5,8 +5,11 @@ console.log(socket);
 
 socket.on("connect",()=>{
     console.log("Board page Successfully connected!");
-    socket.emit("request_store_name","request store name!");
-})
+    
+});
+function initialStoreNameSetup(){
+    socket.emit("request_store_name","");
+}
 // Receive adding number
 // event by send button on numbering
 //socket.on('send_number',(data)=>{});
@@ -173,6 +176,7 @@ function toggleFullScreen(){
 modalElem.style.display = "none";
 
 window.onload = function (){
-    setBoardStoreName();
+    // setBoardStoreName();
+    initialStoreNameSetup();
     // openModal();
 }

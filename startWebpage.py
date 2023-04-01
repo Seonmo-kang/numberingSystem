@@ -57,13 +57,18 @@ def monitor_areas():
 # Board page opening
 ###
 windowUsername = os.getenv('username')
-USERDATAPATH = r"C:/Temp/ChromeProfile"
+USERDATAPATH = r"C:/numberingSystem/ChromeProfile"
+# USERDATAPATH = os.path.join(os.getcwd(),"ChromeProfile")
 
 def openBoardPage(w,h):
   try:
     options = Options()
     options.add_experimental_option('excludeSwitches', ['enable-automation'])
     options.add_experimental_option("detach", True)
+    #Set option for (unknown error: DevToolsActivePort file doesn't exist)
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-setuid-sandbox")
+    options.add_argument("--disable-dev-shm-using")
 
     # Board page
     browser2 = webdriver.Chrome(options= options)
@@ -81,9 +86,13 @@ def openNumberpadPage(w,h):
     options = Options()
     options.add_experimental_option('excludeSwitches', ['enable-automation'])
     options.add_experimental_option("detach", True)
+    #Set option for (unknown error: DevToolsActivePort file doesn't exist)
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-setuid-sandbox")
+
     #Set chrome profile
     options.add_argument(f"--user-data-dir={USERDATAPATH}")
-    options.add_argument(f'--profile-directory=Default')
+    options.add_argument('--profile-directory=Default')
 
     # Numberpad page
     browser = webdriver.Chrome(options= options)

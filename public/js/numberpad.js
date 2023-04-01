@@ -3,6 +3,10 @@ console.log(socket);
 
 let orderList = [];
 let orderDetect;
+socket.on("resend_storeName", async ()=>{
+    if(window.localStorage.getItem("store-name")!=null)
+        await socket.emit("send_storeName",window.localStorage.getItem("store-name"));
+})
 // Number key listener
 // Print number on numberInput element
 // socket.emit("send_number", data);
