@@ -36,8 +36,10 @@ io.on('connection', (socket) => {
     //if storename is null then print error
     socket.on('request_store_name',(data)=>{
         console.log("request_store_name from board page: ",storeName);
-        if(storeName!=null)
+        if(storeName!=null) {
             socket.broadcast.emit("send_storeName_to_board",storeName);
+            console.log("request_store_name from board page: ",storeName);
+        }
     });
 
     //Get number from numberpad page

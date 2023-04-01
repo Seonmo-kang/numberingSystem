@@ -40,10 +40,12 @@ socket.on('send_delete_number_to_board',(data)=>{
 // event by click change button in setting pop up window
 //socket.on('send_storeName',(data)=>{});
 socket.on('send_storeName_to_board',(data)=>{
-    console.log('send_storeName :',data);
+    console.log('send_storeName to board :',data);
+    window.localStorage.setItem('store-name',data);
     // change innerText of element of storeName
     let storeBannerElement = document.getElementById("storeName");
     storeBannerElement.innerText = data;
+
 });
 
 socket.on('send_delete_all_orders_to_board',(data)=>{
@@ -58,11 +60,8 @@ socket.on('send_delete_all_orders_to_board',(data)=>{
 // set storeName from localStorage
 function setBoardStoreName(){
     let storeBannerElement = document.getElementById("storeName");
-    if(localStorage.getItem("store-name")==null){
-        storeBannerElement.innerText = "";
-    }else{
+    if(localStorage.getItem("store-name")!=null)
         storeBannerElement.innerText = localStorage.getItem("store-name");
-    }
 }
 
 //Show alert-modal when received number from WS
