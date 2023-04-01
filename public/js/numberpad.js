@@ -117,6 +117,7 @@ function setStoreName(){
         socket.emit("send_storeName",storeName);
     }
 }
+// Set order-speech on localStorage data
 function setOrderSpeech(){
     let orderSpeechInput = document.getElementById("order-speech");
     let orderSpeechValue = orderSpeechInput.value;
@@ -130,6 +131,26 @@ function hasFrontSpace(string){
     }
     return true;
 }
+
+// Toast function
+function alertToast(text){
+    Toastify({
+        text: text,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "center", // `left`, `center` or `right`
+        stopOnFocus: false, // Prevents dismissing of toast on hover
+        style: {
+            padding: "2rem",
+            fontSize: "2rem",
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function(){} // Callback after click
+    }).showToast();
+}
+
 //Guide Modal
 let guideModals = document.getElementsByClassName("guide-modal");
 let guideContent = document.getElementsByClassName("guide-content");
@@ -291,6 +312,11 @@ function keyClick(){
             }
             else{
                 console.log("data : ",data);
+                console.log("numberInput.innerText.length :",numberInput.innerText.length);
+                if(numberInput.innerText.length==4){
+                    numberInput.innerText = numberInput.innerText.slice(1);
+                    alertToast("Order number limit is 4 digit");
+                }
                 numberInput.innerText += data;
             }
         }
