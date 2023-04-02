@@ -26,21 +26,7 @@ socket.on("resend_storeName", async ()=>{
 // if localstorage doesn't have store name then open setting pop up window
 function initialSetUp(){
     if(localStorage.getItem("store-name") == null){
-        Toastify({
-            text: "Please set up Store name!",
-            duration: 3000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: true, // Prevents dismissing of toast on hover
-            style: {
-                padding: "2rem",
-                fontSize: "2rem",
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            },
-            onClick: function(){} // Callback after click
-        }).showToast();
+        alertToast("Please set up Store name!","red");
         modalControl("setting-modal","block");
         //Disable cancel button
         let closeButton = document.getElementById("close");
@@ -72,42 +58,12 @@ function setStoreName(){
     // exception : Store Name is empty
     if(storeName==""){
         // alert
-        console.log("storeName is empty. Alert should be popped up");
-        Toastify({
-            text: "storeName is empty.",
-            duration: 3000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: false, // Prevents dismissing of toast on hover
-            style: {
-                padding: "2rem",
-                fontSize: "2rem",
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            },
-            onClick: function(){} // Callback after click
-        }).showToast();
+        alertToast("Please insert StoreName","red");
     }
     // exception : Store Name has Front space
     else if(!hasFrontSpace(storeName)){
         // alert
-        console.log("hasFrontSpace : false, Alert should be popped up");
-        Toastify({
-            text: "Store name has front space",
-            duration: 3000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: false, // Prevents dismissing of toast on hover
-            style: {
-                padding: "2rem",
-                fontSize: "2rem",
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            },
-            onClick: function(){} // Callback after click
-        }).showToast();
+        alertToast("Store name has front space","red");
     }
     else{
         let closeButton = document.getElementById("close");
@@ -115,7 +71,10 @@ function setStoreName(){
         window.localStorage.setItem("store-name",storeName);
         storeBanner.innerText = storeName;
         socket.emit("send_storeName",storeName);
+        return true;
     }
+    // if store name is not defined well, return false not to close modal.
+    return false;
 }
 // Set order-speech on localStorage data
 function setOrderSpeech(){
@@ -133,7 +92,8 @@ function hasFrontSpace(string){
 }
 
 // Toast function
-function alertToast(text){
+function alertToast(text, color = "green"){
+    let alertColor = color == "green"? "linear-gradient(to right, #00b09b, #96c93d)" : "linear-gradient(to right, rgb(255,95,109) , rgb(255,195,113) )";
     Toastify({
         text: text,
         duration: 3000,
@@ -145,7 +105,7 @@ function alertToast(text){
         style: {
             padding: "2rem",
             fontSize: "2rem",
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
+            background: alertColor,
         },
         onClick: function(){} // Callback after click
     }).showToast();
@@ -224,9 +184,10 @@ function settingButtonClick(){
                     modalControl("setting-modal","none");
                     break;
                 case "save":
-                    setStoreName();
-                    setOrderSpeech();
-                    modalControl("setting-modal","none");
+                    if(setStoreName()){
+                        setOrderSpeech();
+                        modalControl("setting-modal","none");
+                    }
                     break;
                 case "cancel":
                     modalControl("setting-modal","none");
@@ -248,6 +209,22 @@ function settingButtonClick(){
         }
     }
 }
+
+// Set enter as save button
+let keysPressed = {};
+document.addEventListener('keydown',(e)=>{
+    keysPressed[e.key] = true;
+    let fullScreenElem = document.getElementById("fullScreen").style.display;
+    let settingModalElem = document.getElementById("setting-modal").style.display;
+    if( fullScreenElem == 'block' && settingModalElem == 'block' && keysPressed['Enter']){
+        let saveButtonElem = document.getElementById('save');
+        saveButtonElem.click();
+        console.log("saveButtonElem is clicked");
+    }
+})
+document.addEventListener('keyup', (e)=>{
+    delete keysPressed[e.key];
+})
 function modalControl(modalName,string){
     //open setting pop up
     //Full monitor make dark
@@ -288,21 +265,7 @@ function keyClick(){
                 let numberListElem = document.getElementById("numberList");
                 // If there is no Number then alert.
                 if(numberListElem.firstChild.id === undefined){
-                    Toastify({
-                        text: "There is No number",
-                        duration: 3000,
-                        newWindow: true,
-                        close: true,
-                        gravity: "top", // `top` or `bottom`
-                        position: "center", // `left`, `center` or `right`
-                        stopOnFocus: false, // Prevents dismissing of toast on hover
-                        style: {
-                            padding: "2rem",
-                            fontSize: "2rem",
-                            background: "linear-gradient(to right, #00b09b, #96c93d)",
-                        },
-                        onClick: function(){} // Callback after click
-                    }).showToast();
+                    alertToast("There is No number","red");
                     return ;
                 }
                 let nextNum = Number(numberListElem.firstChild.id) + 1;
@@ -393,7 +356,6 @@ function audioPlay(){
             res(console.log("AudioPlay stopped"));
         });
     })
-    // ding dong sound
 }
 
 let speech_voices;
