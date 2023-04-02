@@ -247,6 +247,7 @@ function keyClick(){
                 // prevent blank number
                 if(numberInput.innerText == "" || formatNumber(numberInput.innerText)=="" ){
                     numberInput.innerText = "";
+                    alertToast("Please insert number","red");
                     return ;
                 }
                 // numberInput.innerText = formatNumber(numberInput.innerText);
@@ -261,6 +262,7 @@ function keyClick(){
                     numberListElem.removeChild(numberListElem.firstChild);
                 }
                 socket.emit('send_delete_all_orders',"");
+                alertToast("All orders has been removed on the board");
             }else if( data == "next" ){
                 let numberListElem = document.getElementById("numberList");
                 // If there is no Number then alert.
@@ -452,45 +454,49 @@ function toggleFullScreen(){
     console.log("toggle FullScreen");
     if(!document.fullscreenElement){
         openFullscreen();
-        Toastify({
-            text: "Full Screen!",
-            duration: 3000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: false, // Prevents dismissing of toast on hover
-            style: {
-                padding: "2rem",
-                fontSize: "2rem",
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            },
-            onClick: function(){} // Callback after click
-        }).showToast();
+        alertToast("Full Screen On");
         console.log("toggle on FullScreen");
     }else{
         closeFullscreen();
-        console.log("toggle off FullScreen");
-        Toastify({
-            text: "Please click Full Screen button to make fullscreen",
-            duration: 3000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: false, // Prevents dismissing of toast on hover
-            style: {
-                padding: "2rem",
-                fontSize: "2rem",
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            },
-            onClick: function(){} // Callback after click
-        }).showToast();
+        alertToast("Please click Full Screen button to make fullscreen","red");
     }
 }
+// speaker device list Test
+if (!navigator.mediaDevices?.enumerateDevices) {
+    console.log("enumerateDevices() not supported.");
+} else {
+    // List cameras and microphones.
+    const audioOutputSelect = document.querySelector('select#audioOutput');
+    const selectors = [ audioOutputSelect ];
+    const audioSource = audioOutputSelect.value;
+    // const videoSource = videoSelect.value;
+    const constraints = {
+        audio : {deviceId : audioSource ? {exact: audioSource} : undefined},
+        // video : {deviceId : videoSource ? {exact: videoSource} : undefined},
+    }
+    function gotDevices(deviceInfos){
+        selectors.forEach( select =>{
+            while(select.firstChild){
+                select.removeChild(select.firstChild);
+            }
+        });
+        for(let i =0; i!==deviceInfos.length; i++){
+            const deviceInfo = deviceInfos[i];
+            const option = document.createElement('option');
+            option.value = deviceInfo.deviceId;
+            if(deviceInfo.kind === 'audioOutput'){
+                option.text = deviceInfo.label || `speaker ${audioOutputSelect.length +1}`;
+                audioOutputSelect.appendChild(option);
+            }
+        }
+    }
+    function handleError(error) {
+        console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
+    }
 
-function initialToastify(){
-
+    navigator.mediaDevices.getUserMedia(constraints).then(function(stream){
+        return navigator.mediaDevices.enumerateDevices();
+    }).then(gotDevices).catch(handleError);
 }
 
 window.onload = function (){
@@ -499,6 +505,5 @@ window.onload = function (){
     keyClick();
     guideModalButton();
     setVoice();
-    initialToastify();
 }
 
