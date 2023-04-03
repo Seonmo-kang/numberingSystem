@@ -469,11 +469,24 @@ if (!navigator.mediaDevices?.enumerateDevices) {
     const audioOutputSelect = document.querySelector('select#audioOutput');
     const selectors = [ audioOutputSelect ];
     const audioSource = audioOutputSelect.value;
-    // const videoSource = videoSelect.value;
+
+
     const constraints = {
         audio : {deviceId : audioSource ? {exact: audioSource} : undefined},
-        // video : {deviceId : videoSource ? {exact: videoSource} : undefined},
     }
+    // Attach audio output device using device/sink ID.
+    function attachSinkId(sinkId){
+        if(typeof )
+    }
+    //change Audio Destination
+    function changeAudioDestination(){
+        const audioDestination = audioOutputSelect.value;
+        navigator.mediaDevices.sel
+        attachSink(audioDestination);
+
+    }
+
+    // Speaker device list
     function gotDevices(deviceInfos){
         selectors.forEach( select =>{
             while(select.firstChild){
@@ -484,7 +497,7 @@ if (!navigator.mediaDevices?.enumerateDevices) {
             const deviceInfo = deviceInfos[i];
             const option = document.createElement('option');
             option.value = deviceInfo.deviceId;
-            if(deviceInfo.kind === 'audioOutput'){
+            if(deviceInfo.kind === 'audiooutput'){
                 option.text = deviceInfo.label || `speaker ${audioOutputSelect.length +1}`;
                 audioOutputSelect.appendChild(option);
             }
