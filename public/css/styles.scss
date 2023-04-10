@@ -7,8 +7,10 @@ $numberingWidth : 100% - $numberListWidth; // Compute percent of numbering width
 $numberingLeft : $numberListWidth;  // Compute position left
 
 $numberInputHeight : 150px;
+$backgroundColor : #0a0a0a;
 $numberBorderColor : #f9f9f9;
-$bannerColor : cornflowerblue;
+$bannerColor : #e61405;
+$numberFontColor : #fafafa;
 $bannerHeight : 100px;
 
 *, ::before, ::after{
@@ -276,7 +278,10 @@ $customerBannerHeight : 200px;
 .customer-banner{
   position: relative;
   height: $customerBannerHeight;
+  color: $numberFontColor;
+  text-align: center;
   & .customer-storeName{
+    width: 100%;
     font-size: 10rem;
   }
 }
@@ -297,6 +302,8 @@ $customerBannerHeight : 200px;
   display: flex;
   height: calc(100vh - $customerBannerHeight);
   padding: 1rem;
+  background-color: $backgroundColor;
+  color: $numberFontColor;
   align-items: center;
   text-align: center;
   font-size: 12rem;
