@@ -67,15 +67,33 @@ function setBoardStoreName(){
         storeBannerElement.innerText = localStorage.getItem("store-name");
 }
 
+function getBoardStoreName(){
+    let storeBannerElement = document.getElementById("storeName");
+    return storeBannerElement.innerText;
+}
+
 //Show alert-modal when received number from WS
 function alertNumber(number){
     let alertModalElement = document.getElementById('alert-modal');
     alertModalElement.style.display = "flex";
-    alertModalElement.innerText = number;
+    
+    let storenameElement = document.createElement("div");
+    storenameElement.classList.add("alert-storename");
+    storenameElement.innerText = getBoardStoreName();
+
+    let numberElement = document.createElement("div");
+    numberElement.classList.add("alert-number");
+    numberElement.innerText = number;
+    
+    alertModalElement.append(storenameElement);
+    alertModalElement.append(numberElement);
     setTimeout(closeAlertNumber,5000);
 }
 function closeAlertNumber(){
     let alertModalElement = document.getElementById('alert-modal');
+    while(alertModalElement.firstChild){
+        alertModalElement.removeChild(alertModalElement.firstChild);
+    }
     alertModalElement.style.display = "none";
 }
 document.addEventListener("click",()=>{

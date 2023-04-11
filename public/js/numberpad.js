@@ -305,6 +305,7 @@ function createNumber(number){
         // repeat button
         let repeatButton = document.createElement("button");
         repeatButton.id = "repeat-" + number;
+        repeatButton.classList.add("order-button");
         repeatButton.classList.add("repeat-order");
         repeatButton.dataset.key = "repeat-order";
         repeatButton.onclick = function (e){
@@ -314,14 +315,15 @@ function createNumber(number){
             // tts(localStorage.getItem("store-name"),order_id);
             orderList.push({number : order_id, operation: "repeat" });
         }
-        repeatButton.innerText = "repeat";
+        repeatButton.innerText = "Repeat";
         currentOrder.append(repeatButton);
 
         // delete button
         let deleteButton = document.createElement("button");
         deleteButton.id = "delete-" + number;
+        deleteButton.classList.add("order-button");
         deleteButton.classList.add("delete-order");
-        deleteButton.classList.add("key");
+        // deleteButton.classList.add("key");
         deleteButton.dataset.key = "delete-order";
         deleteButton.onclick = function (){
             // oder id is letters over 7 letters.
