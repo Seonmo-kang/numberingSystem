@@ -68,6 +68,10 @@ function setStoreName(){
     else{
         let closeButton = document.getElementById("close");
         closeButton.disabled = false;
+        let cancelButton = document.getElementById("cancel");
+        cancelButton.disabled = false;
+        cancelButton.style.background = "brown";
+
         window.localStorage.setItem("store-name",storeName);
         storeBanner.innerText = storeName;
         socket.emit("send_storeName",storeName);
