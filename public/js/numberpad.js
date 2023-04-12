@@ -375,9 +375,16 @@ function startLoadingBar(element) {
     console.log(element);
     let width = 0;
     const intervalId = setInterval(() => {
-        // timer Duration 1000(1s) * 60 * customizing input
-        let timerDuration = localStorage.getItem("timerDuration")===null? 180000 : localStorage.getItem("timerDuration");
-        let loadingSpeed = 100/timerDuration;
+        const observer = new MutationObserver(mutations =>{
+            if(!element){
+                clearInterval(intervalId);
+                observer.disconnect();
+            }
+        })
+        // timer Duration 60 * customizing input
+        let timerDuration = localStorage.getItem("timerDuration")===null? 180 : localStorage.getItem("timerDuration")*60;
+        console.log(timerDuration);
+        let loadingSpeed = ( 100 / timerDuration );
         console.log("loadingSpeed : ", loadingSpeed);
         width += loadingSpeed;
         element.style.width = width + '%';
