@@ -53,7 +53,11 @@ io.on('connection', (socket) => {
         console.log("delete_number function Test : ",data);
         socket.broadcast.emit("send_delete_number_to_board",data);
     })
-
+    // Disable alert modal in board page before new number comes
+    socket.on('send_close_alert',(data)=>{
+        console.log("send_close_alert_to_board : ",data);
+        socket.broadcast.emit("send_close_alert_to_board",data);
+    })
     //Get store name from numberpad page
     //Send to every socket to change store name
     socket.on('send_storeName', (data)=> {
@@ -75,7 +79,7 @@ io.on('connection', (socket) => {
 });
 
 // Using app.listen(3000) will not work here, as it creates a new HTTP server.
-server.listen(3000);
+server.listen(port);
 
 // app.listen(port, () => {
 //     console.log(`Example app listening at http://localhost:${port}`);
