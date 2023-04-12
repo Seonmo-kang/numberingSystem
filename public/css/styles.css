@@ -163,6 +163,7 @@ input::-webkit-input-placeholder {
   overflow: scroll;
 }
 .numberList .order {
+  position: relative;
   display: flex;
   width: 100%;
   padding: 1.5rem 3rem;
@@ -179,6 +180,20 @@ input::-webkit-input-placeholder {
   margin-left: auto;
   margin-right: 1rem;
   background-color: darkgoldenrod;
+}
+.numberList .order .loading-bar {
+  position: absolute;
+  left: 0;
+  top: 135px;
+  width: 100%;
+  height: 10px;
+  background-color: #f2f2f2;
+  margin-top: 20px;
+}
+.numberList .order .progress-bar {
+  width: 0;
+  height: 100%;
+  background-color: #007bff;
 }
 
 .double-dot {
