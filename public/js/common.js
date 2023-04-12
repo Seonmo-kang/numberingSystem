@@ -1,4 +1,5 @@
-function openFullscreen() {
+export const screenElem = document.documentElement;
+export function openFullscreen() {
     if (screenElem.requestFullscreen) {
         screenElem.requestFullscreen();
     } else if (screenElem.webkitRequestFullscreen) { /* Safari */
@@ -9,7 +10,7 @@ function openFullscreen() {
 }
 
 /* Close fullscreen */
-function closeFullscreen() {
+export function closeFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
     } else if (document.webkitExitFullscreen) { /* Safari */
@@ -19,7 +20,7 @@ function closeFullscreen() {
     }
 }
 // full screen toggle function
-function toggleFullScreen(){
+export function toggleFullScreen(){
     console.log("toggle FullScreen");
     if(!document.fullscreenElement){
         openFullscreen();

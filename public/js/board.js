@@ -1,4 +1,3 @@
-
 const socket = io("http://localhost:3000");
 console.log("Test");
 console.log(socket);
@@ -39,6 +38,10 @@ socket.on('send_delete_number_to_board',(data)=>{
     let listElement = document.getElementById("numberList");
     listElement.removeChild(orderElement);
 });
+// Receive close alert modal
+socket.on('send_close_alert_to_board',(data)=>{
+    closeAlertNumber();
+})
 // Receive store Name
 // event by click change button in setting pop up window
 //socket.on('send_storeName',(data)=>{});
@@ -87,7 +90,7 @@ function alertNumber(number){
     
     alertModalElement.append(storenameElement);
     alertModalElement.append(numberElement);
-    setTimeout(closeAlertNumber,5000);
+    // setTimeout(closeAlertNumber,5000);
 }
 function closeAlertNumber(){
     let alertModalElement = document.getElementById('alert-modal');
@@ -102,6 +105,8 @@ document.addEventListener("click",()=>{
 
 let modalFullScreen = document.getElementById("fullScreen");
 let modalElem = document.getElementById("modal-content");
+modalFullScreen.style.display = "none";
+modalElem.style.display = "none";
 
 // function openModal(){
 //     if(document.fullscreenElement){
@@ -191,7 +196,7 @@ function toggleFullScreen(){
     }
 }
 
-modalElem.style.display = "none";
+
 
 window.onload = function (){
     // setBoardStoreName();

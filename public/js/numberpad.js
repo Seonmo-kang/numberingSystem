@@ -145,21 +145,7 @@ function guideModalButton(){
                 guideContent[0].innerText = "Please turn TV on and connect HDMI Cable";
             }else if(data== "help"){
                 // Open Guide PDF file
-                Toastify({
-                    text: "There is No number",
-                    duration: 3000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "center", // `left`, `center` or `right`
-                    stopOnFocus: false, // Prevents dismissing of toast on hover
-                    style: {
-                        padding: "2rem",
-                        fontSize: "2rem",
-                        background: "linear-gradient(to right, #00b09b, #96c93d)",
-                    },
-                    onClick: function(){} // Callback after click
-                }).showToast();
+                alertToast("There is No number");
             }else if(data == "newWindow"){
                 // close board using socket IO
                 socket.emit('close_board',"null");
@@ -403,9 +389,7 @@ async function tts(){
         console.log("Speech voice : ",speech_voices.filter(function(voice){ return voice.name == 'Microsoft Zira - English (United States)'; })[0]);
         speechSynthesis.speak(utterance);
         utterance.onend = (e) => {
-            if (orderList.length > 0) {
-                tts();
-            }
+            socket.emit('send_close_alert',"Test now");
             orderDetect = setInterval(tts, 1000);
         }
 
@@ -458,45 +442,13 @@ function toggleFullScreen(){
     console.log("toggle FullScreen");
     if(!document.fullscreenElement){
         openFullscreen();
-        Toastify({
-            text: "Full Screen!",
-            duration: 3000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: false, // Prevents dismissing of toast on hover
-            style: {
-                padding: "2rem",
-                fontSize: "2rem",
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            },
-            onClick: function(){} // Callback after click
-        }).showToast();
+        alertToast("Full Screen!");
         console.log("toggle on FullScreen");
     }else{
         closeFullscreen();
         console.log("toggle off FullScreen");
-        Toastify({
-            text: "Please click Full Screen button to make fullscreen",
-            duration: 3000,
-            newWindow: true,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: false, // Prevents dismissing of toast on hover
-            style: {
-                padding: "2rem",
-                fontSize: "2rem",
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-            },
-            onClick: function(){} // Callback after click
-        }).showToast();
+        alertToast("Please click Full Screen button to make fullscreen");
     }
-}
-
-function initialToastify(){
-
 }
 
 window.onload = function (){
@@ -505,6 +457,5 @@ window.onload = function (){
     keyClick();
     guideModalButton();
     setVoice();
-    initialToastify();
 }
 
