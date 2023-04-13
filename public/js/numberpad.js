@@ -90,7 +90,7 @@ function setOrderSpeech(){
         localStorage.setItem("order-speech",orderSpeechValue);
 }
 
-// Spell Check
+// Spell Check on StoreName input
 function hasFrontSpace(string){
     const re = new RegExp("^[a-zA-Z]+\\s?");
     if(re.exec(string)==null){
