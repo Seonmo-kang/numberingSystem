@@ -285,6 +285,7 @@ input::-webkit-input-placeholder {
 
 .board-order {
   width: 30%;
+  height: 33%;
   display: flex;
   margin: auto;
   justify-content: center;

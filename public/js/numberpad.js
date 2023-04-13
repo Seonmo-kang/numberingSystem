@@ -50,6 +50,7 @@ function initialSetUp(){
     orderSpeechInput.value = localStorage.getItem("order-speech")==null ? "" : localStorage.getItem("order-speech");
 }
 
+// Required part to be set up
 function setStoreName(){
     let storeNameInput = document.getElementById("store-name");
     let storeBanner = document.getElementById("storeName");
@@ -80,6 +81,7 @@ function setStoreName(){
     // if store name is not defined well, return false not to close modal.
     return false;
 }
+
 // Set order-speech on localStorage data
 function setOrderSpeech(){
     let orderSpeechInput = document.getElementById("order-speech");
@@ -87,6 +89,8 @@ function setOrderSpeech(){
     if(orderSpeechValue!==null)
         localStorage.setItem("order-speech",orderSpeechValue);
 }
+
+// Spell Check
 function hasFrontSpace(string){
     const re = new RegExp("^[a-zA-Z]+\\s?");
     if(re.exec(string)==null){
@@ -369,8 +373,6 @@ function setVoice(){
  send order number to board to announce order.
 */
 async function tts(){
-    // console.log("tts active");
-    // console.log("orderList :",orderList);
     let orderSpeech = localStorage.getItem('order-speech')===null ? "" : localStorage.getItem('order-speech') ;
     // Play tts if order is in order List
     if(orderList.length > 0){
