@@ -290,7 +290,7 @@ input::-webkit-input-placeholder {
   margin: auto;
   justify-content: center;
   align-items: center;
-  font-size: 20rem;
+  font-size: 17rem;
 }
 
 /* one item */
@@ -311,7 +311,6 @@ input::-webkit-input-placeholder {
 .board-order:first-child:nth-last-child(3),
 .board-order:first-child:nth-last-child(3) ~ .board-order {
   width: 33.3333%;
-  font-size: 25rem;
 }
 
 /* four items */
@@ -325,7 +324,6 @@ input::-webkit-input-placeholder {
 .board-order:first-child:nth-last-child(5),
 .board-order:first-child:nth-last-child(5) ~ .board-order {
   width: 33.3%;
-  font-size: 20rem;
 }
 
 .modal-content {

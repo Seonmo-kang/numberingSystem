@@ -329,7 +329,7 @@ $customerBannerHeight : 200px;
   margin: auto;
   justify-content: center;
   align-items: center;
-  font-size: 20rem;
+  font-size: 17rem;
 }
 //https://stackoverflow.com/questions/8720931/can-css-detect-the-number-of-children-an-element-has
 /* one item */
@@ -350,7 +350,6 @@ $customerBannerHeight : 200px;
 .board-order:first-child:nth-last-child(3),
 .board-order:first-child:nth-last-child(3) ~ .board-order {
   width: 33.3333%;
-  font-size: 25rem;
 }
 
 /* four items */
@@ -364,7 +363,6 @@ $customerBannerHeight : 200px;
 .board-order:first-child:nth-last-child(5),
 .board-order:first-child:nth-last-child(5) ~ .board-order {
   width: 33.3%;
-  font-size: 20rem;
 }
 
 .modal-content{
