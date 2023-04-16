@@ -132,9 +132,9 @@ button {
 }
 
 .description {
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-align: center;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 input::-webkit-input-placeholder {

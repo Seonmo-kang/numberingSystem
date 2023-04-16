@@ -82,6 +82,28 @@ function setStoreName(){
     return false;
 }
 
+// set bellsound option and selected
+function setBellSound(){
+    let bellSoundInput = document.getElementById("bellSound-option");
+    bellSoundInput.addEventListener("change", updateBellSoundOption);
+    if(getBellSound()===null){
+        window.localStorage.setItem("bellSound-option","enable");
+    }
+    for(let i=0; i<bellSoundInput.options.length; i++){
+        if(bellSoundInput.options[i].value == getBellSound()){
+            bellSoundInput.options[i].selected = true;
+            alertToast(`Bell Sound is ${bellSoundInput.options[i].value}`);
+        }
+    }
+}
+function getBellSound(){
+    return window.localStorage.getItem("bellSound-option");
+}
+
+function updateBellSoundOption(e){
+    window.localStorage.setItem("bellSound-option",e.target.value);
+}
+
 // Set order-speech on localStorage data
 function setOrderSpeech(){
     let orderSpeechInput = document.getElementById("order-speech");
@@ -372,6 +394,7 @@ function setVoice(){
  order announce if order is on orderList
  send order number to board to announce order.
 */
+
 async function tts(){
     let orderSpeech = localStorage.getItem('order-speech')===null ? "" : localStorage.getItem('order-speech') ;
     // Play tts if order is in order List
@@ -382,7 +405,9 @@ async function tts(){
         let utterance =  new SpeechSynthesisUtterance( orderSpeech+ " " + number);
         //Send number and operation first for board page.
         socket.emit("send_number", orderObj);
-        await audioPlay();
+        if(getBellSound()==="enable"){
+            await audioPlay();
+        }
         // let utterance =  new SpeechSynthesisUtterance(storeName+ "  your number "+number+" is ready");
         utterance.rate = 0.8;
         // let voices = window.speechSynthesis.getVoices();
@@ -406,16 +431,12 @@ function isDuplicatedNum(number){
     console.log("orders : ", orders);
     for(let order of orders){
         if(order.id == number){
-            // Error?
-            // Making number red?
-            console.log("Number has been notified");
             order.style.color = "red";
             return true;
         }
     }
     return false;
 }
-
 
 //Full Screen function
 let screenElem = document.documentElement;
@@ -456,6 +477,8 @@ function toggleFullScreen(){
 window.onload = function (){
     initialSetUp();
     settingButtonClick();
+    //Test
+    setBellSound();
     keyClick();
     guideModalButton();
     setVoice();
