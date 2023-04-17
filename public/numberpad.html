@@ -67,8 +67,15 @@
                 <input type="text" placeholder="type store name" class="setting-input" id="store-name">
             </div>
             <div class="modal-col">
+                <label for="bellSound-option" class="setting-label">Bell Sound :</label>
+                <select name="bellSound-option" id="bellSound-option" class="setting-input">
+                    <option value="enable">Enable(default)</option>
+                    <option value="disable">Disable</option>
+                </select>
+            </div>
+            <div class="modal-col">
                 <label for="order-speech" class="setting-label">Order Speech :</label>
-                <p class="description">Default : Bell sound + ( Adding speech here ) + order number </p>
+                <p class="description">Default : Bell sound(optional) + <b>( Add speech here )</b> + order number </p>
                 <input type="text" placeholder="Create order speech" class="setting-input" id="order-speech">
             </div>
         </div>
