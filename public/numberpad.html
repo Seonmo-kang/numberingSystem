@@ -72,6 +72,13 @@
                 <input type="text" placeholder="Create order speech" class="setting-input" id="order-speech">
             </div>
             <div class="modal-col">
+                <label for="timer-option" class="setting-label">Timer :</label>
+                <select name="timer-option" id="timer-option" class="setting-input">
+                    <option value="enable">Enable(default)</option>
+                    <option value="disable">Disable</option>
+                </select>
+            </div>
+            <div class="modal-col-2 timer-subOption">
                 <label for="timer-duration" class="setting-label">Timer Duration (min) :</label>
                 <p class="description">Default : 3 Minutes ( After 3 Minutes Order number will be removed automatically. </p>
                 <input type="number" placeholder="Insert desired minute" class="setting-input" id="timer-duration">

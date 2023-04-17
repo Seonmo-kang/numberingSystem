@@ -115,9 +115,10 @@ button{
     margin:auto;
     padding: 3rem;
     font-size: 1.75rem;
-
-    & .modal-col {
-        display: block;
+    @mixin modal-col-template {
+      display: block;
+      padding-bottom: 1rem;
+      visibility: visible;
       & .setting-label{
         display: block;
         padding: 0.375rem 0 ;
@@ -132,6 +133,15 @@ button{
         appearance: none;
         border-radius: 0.375rem;
       }
+    }
+    & .modal-col {
+      @include modal-col-template;
+    }
+    & .modal-col-2{
+      @include modal-col-template;
+      margin-left : 2rem;
+      font-size: 1.5rem;
+
     }
   }
   & .modal-footer{
@@ -390,4 +400,39 @@ $customerBannerHeight : 200px;
   font-size: 2rem;
   text-align: center;
   padding: 2rem;
+}
+
+.appear-element{
+  animation: appear 0.5s forwards;
+}
+
+.disappear-element{
+  animation: disappear 0.5s forwards;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    visibility: visible;
+    transform: translateY(-10%);
+
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10%);
+  }
 }
