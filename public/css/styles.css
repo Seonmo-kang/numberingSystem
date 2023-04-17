@@ -95,12 +95,35 @@ button {
 }
 .modal .modal-body .modal-col {
   display: block;
+  padding-bottom: 1rem;
+  visibility: visible;
 }
 .modal .modal-body .modal-col .setting-label {
   display: block;
   padding: 0.375rem 0;
 }
 .modal .modal-body .modal-col .setting-input {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 2rem;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: 0.375rem;
+}
+.modal .modal-body .modal-col-2 {
+  display: block;
+  padding-bottom: 1rem;
+  visibility: visible;
+  margin-left: 2rem;
+  font-size: 1.5rem;
+}
+.modal .modal-body .modal-col-2 .setting-label {
+  display: block;
+  padding: 0.375rem 0;
+}
+.modal .modal-body .modal-col-2 .setting-input {
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
@@ -163,6 +186,7 @@ input::-webkit-input-placeholder {
   overflow: scroll;
 }
 .numberList .order {
+  position: relative;
   display: flex;
   width: 100%;
   padding: 1.5rem 3rem;
@@ -179,6 +203,20 @@ input::-webkit-input-placeholder {
   margin-left: auto;
   margin-right: 1rem;
   background-color: darkgoldenrod;
+}
+.numberList .order .loading-bar {
+  position: absolute;
+  left: 0;
+  top: 135px;
+  width: 100%;
+  height: 10px;
+  background-color: #f2f2f2;
+  margin-top: 20px;
+}
+.numberList .order .progress-bar {
+  width: 0;
+  height: 100%;
+  background-color: #007bff;
 }
 
 .double-dot {
@@ -334,6 +372,37 @@ input::-webkit-input-placeholder {
   font-size: 2rem;
   text-align: center;
   padding: 2rem;
+}
+
+.appear-element {
+  animation: appear 0.5s forwards;
+}
+
+.disappear-element {
+  animation: disappear 0.5s forwards;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    visibility: visible;
+    transform: translateY(-10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10%);
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

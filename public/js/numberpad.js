@@ -48,6 +48,9 @@ function initialSetUp(){
     // Fill Speech order
     let orderSpeechInput = document.getElementById("order-speech");
     orderSpeechInput.value = localStorage.getItem("order-speech")==null ? "" : localStorage.getItem("order-speech");
+    // Fill Timer duration
+    let timerDurationInput = document.getElementById("timer-duration");
+    timerDurationInput.value = localStorage.getItem("timer-duration")==null ? "" : localStorage.getItem("timer-duration");
 }
 
 // Required part to be set up
@@ -112,7 +115,55 @@ function setOrderSpeech(){
         localStorage.setItem("order-speech",orderSpeechValue);
 }
 
-// Spell Check on StoreName input
+//Set up the local storage timerDuration value
+function setTimerDuration(){
+    const timerDurationInput = document.getElementById("timer-duration");
+    let timerDuration = timerDurationInput.value;
+    console.log(timerDuration);
+    if(timerDuration != ""){
+        localStorage.setItem("timer-duration",timerDuration);
+        console.log("timer-duration has been changed");
+    }
+}
+
+function setTimerOption(){
+    let timerOptionInput = document.getElementById("timer-option");
+    timerOptionInput.addEventListener("change",updateTimerOption);
+    if(getTimerOption()===null){
+        window.localStorage.setItem("timer-option","enable");
+    }
+    for(let i=0; i<timerOptionInput.options.length; i++){
+        if(timerOptionInput.options[i].value == getTimerOption()){
+            timerOptionInput.options[i].selected = true;
+            alertToast(`Timer is ${timerOptionInput.options[i].value}`);
+        }
+    }
+    // initial animation
+    showSubOption("timer-subOption",getTimerOption());
+}
+function getTimerOption(){
+    return window.localStorage.getItem("timer-option");
+}
+function updateTimerOption(e){
+    window.localStorage.setItem("timer-option",e.target.value);
+    showSubOption("timer-subOption",getTimerOption());
+}
+
+// animation on col-2
+function showSubOption(className,option){
+    let classNameElems = document.getElementsByClassName(className);
+    console.log(classNameElems);
+    Array.prototype.forEach.call(classNameElems,(el)=>{
+        if( option == "disable" ){
+            el.classList.remove("appear-element");
+            el.classList.add("disappear-element");
+        }else {
+            el.classList.remove("disappear-element");
+            el.classList.add("appear-element");
+        }
+    });
+}
+// Check grammer in storeName
 function hasFrontSpace(string){
     const re = new RegExp("^[a-zA-Z]+\\s?");
     if(re.exec(string)==null){
@@ -202,6 +253,7 @@ function settingButtonClick(){
                 case "save":
                     if(setStoreName()){
                         setOrderSpeech();
+                        setTimerDuration()
                         modalControl("setting-modal","none");
                     }
                     break;
@@ -310,7 +362,7 @@ function formatNumber(number){
 }
 // Create number & TTS
 // Exception : duplicated
-function createNumber(number){
+async function createNumber(number){
     // The number is duplicated then number order color is changed red.
     if(!isDuplicatedNum(number)){
         let currentOrder = document.createElement("div");
@@ -352,7 +404,9 @@ function createNumber(number){
         };
         deleteButton.innerText = "Delete";
         currentOrder.append(deleteButton);
-
+        if(getTimerOption()==="enable"){
+            createProgressBar(currentOrder,number);
+        }
         document.getElementById("numberList").prepend(currentOrder);
         orderList.push({"number": number, operation: "add"});
     }else{
@@ -360,6 +414,69 @@ function createNumber(number){
         orderList.push({"number": number, operation: "repeat"});
     }
 
+}
+
+function createProgressBar(currentOrder,number){
+    //Create and append Processing bar
+    let loadingBarElem = document.createElement("div");
+    let progressBarElem = document.createElement("div");
+    loadingBarElem.classList.add("loading-bar");
+    progressBarElem.classList.add("progress-bar");
+    progressBarElem.id = "progress-bar-"+number;
+    loadingBarElem.append(progressBarElem);
+
+    currentOrder.append(loadingBarElem);
+    // waiting for progressBar exists
+    function waitForElm(id){
+        return new Promise(resolve => {
+            if (document.getElementById(id)) {
+                return resolve(document.getElementById(id));
+            }
+
+            const observer = new MutationObserver(mutations => {
+                if (document.getElementById(id)) {
+                    resolve(document.getElementById(id));
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
+    // waitForElm return element node
+    waitForElm("progress-bar-"+number).then((elm)=>{startLoadingBar(elm)});
+}
+// Order timer
+function startLoadingBar(element) {
+    console.log(element);
+    let width = 0;
+    const intervalId = setInterval(() => {
+        const observer = new MutationObserver(mutations =>{
+            if(!element){
+                clearInterval(intervalId);
+                observer.disconnect();
+            }
+        })
+        // timer Duration 60 * customizing input
+        let timerDuration = localStorage.getItem("timer-duration")===null? 180 : parseInt(localStorage.getItem("timer-duration"))*60;
+        console.log(timerDuration);
+        let loadingSpeed = ( 100 / timerDuration );
+        console.log("loadingSpeed : ", loadingSpeed);
+        width += loadingSpeed;
+        element.style.width = width + '%';
+        if (width >= 100) {
+            clearInterval(intervalId);
+            let number = element.id;
+            number = number.slice(13);
+            console.log("number is ",number);
+            let orderElem = document.getElementById(number);
+            orderElem.parentElement.removeChild(orderElem);
+            socket.emit("delete_number",number);
+        }
+    }, 1000);
 }
 
 // Ding Dong Sound
@@ -477,6 +594,8 @@ function toggleFullScreen(){
 window.onload = function (){
     initialSetUp();
     settingButtonClick();
+    setOrderSpeech();
+    setTimerOption();
     //Test
     setBellSound();
     keyClick();
