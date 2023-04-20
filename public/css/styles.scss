@@ -43,7 +43,7 @@ button{
   & .storeName{
     margin-left: 1.5rem;
     align-self: center;
-    font-size: 5rem;
+    font-size: 3rem;
   }
 
   & .banner-button{
@@ -331,7 +331,7 @@ $customerBannerHeight : 200px;
   text-align: center;
   & .customer-storeName{
     width: 100%;
-    font-size: 10rem;
+    font-size: 7rem;
   }
 }
 .alert-modal{
@@ -347,11 +347,11 @@ $customerBannerHeight : 200px;
   overflow: hidden;
   z-index: 3;
   & .alert-storename{
-    font-size: 15rem;
+    font-size: 7rem;
     // height: 30%;
   }
   & .alert-number{
-    font-size: 35rem;
+    font-size: 14rem;
     // height: 70%;
   }
 }
@@ -378,21 +378,21 @@ $customerBannerHeight : 200px;
   margin: auto;
   justify-content: center;
   align-items: center;
-  font-size: 17rem;
+  font-size: 10rem;
 }
 //https://stackoverflow.com/questions/8720931/can-css-detect-the-number-of-children-an-element-has
 /* one item */
 .board-order:first-child:nth-last-child(1) {
   /* -or- .board-order:only-child { */
   width: 100%;
-  font-size: 35rem;
+  font-size: 17rem;
 }
 
 /* two items */
 .board-order:first-child:nth-last-child(2),
 .board-order:first-child:nth-last-child(2) ~ .board-order {
   width: 50%;
-  font-size: 30rem;
+  font-size: 15rem;
 }
 
 /* three items */
@@ -405,7 +405,7 @@ $customerBannerHeight : 200px;
 .board-order:first-child:nth-last-child(4),
 .board-order:first-child:nth-last-child(4) ~ .board-order {
   width: 50%;
-  font-size: 20rem;
+  font-size: 17rem;
 }
 
 /* five items */
