@@ -519,7 +519,7 @@ async function tts(){
         // get orderList.shift first because of await audio play function
         let orderObj = orderList.shift();
         let number = orderObj['number'];
-        let utterance =  new SpeechSynthesisUtterance( orderSpeech+ " " + number);
+        let utterance =  new SpeechSynthesisUtterance( orderSpeech+ " " + number + " is ready");
         //Send number and operation first for board page.
         socket.emit("send_number", orderObj);
         if(getBellSound()==="enable"){
