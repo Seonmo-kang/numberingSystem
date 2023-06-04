@@ -7,7 +7,11 @@ $numberingWidth : 100% - $numberListWidth; // Compute percent of numbering width
 $numberingLeft : $numberListWidth;  // Compute position left
 
 $numberInputHeight : 150px;
+$backgroundColor : #0a0a0a;
 $numberBorderColor : #f9f9f9;
+$bannerColor : #e61405;
+$numberFontColor : #fafafa;
+$bannerHeight : 100px;
 
 *, ::before, ::after{
   margin:0;
@@ -19,35 +23,85 @@ body {
   height: 100%;
   font-family: "Poppins", sans-serif;
 }
+
+button{
+  background-color: #0d6efd;
+  font-size: 1.5rem;
+}
+
 // Banner
 .banner {
   //position:fixed;
   left:0;
   top:0;
   width:100%;
-  height: 100px;
+  height: $bannerHeight;
   display:flex;
   text-align:center;
-  background-color: cornflowerblue;
+  background-color: $bannerColor;
   z-index:10;
   & .storeName{
     margin-left: 1.5rem;
     align-self: center;
-    font-size: 2.5rem;
+    font-size: 5rem;
   }
+
   & .banner-button{
+    display:flex;
+    align-items: center;
     margin-left: auto;
     margin-right: 1.5rem;
     align-self: center;
+    & .button{
+      margin-left: 1.5rem;
+    }
+    & .help-button{
+      font-size: 1.25rem;
+      background-color: greenyellow;
+      width: 100px;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 2rem;
+      margin: 0.375rem;
+    }
+    & .fullscreen-button{
+      font-size: 1.25rem;
+      background-color: green;
+      width: 200px;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 2rem;
+      margin: 0.375rem;
+    }
+
     & .iconButton{
+      display: block;
+      width: auto;
       background-color: transparent;
       border : none;
     }
     & .icon{
       width: 70px;
       height: auto;
+      pointer-events: none;
     }
   }
+}
+::-webkit-scrollbar{
+  width: 20px;
+  
+}
+
+::-webkit-scrollbar-track{
+  border-radius: 20px;
+  background-color: #f2f2f2;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: #a5a5a5;
+}
+::-webkit-scrollbar-thumb:hover{
+  background-color: #575757;
 }
 
 //Setting modal
@@ -55,6 +109,8 @@ body {
   background: white;
   position: absolute;
   display: none;
+  max-height: 100%;
+  overflow-y: scroll;
   float: left;
   padding : 1rem;
   left: 50%;
@@ -63,6 +119,10 @@ body {
   z-index: 4;
 
   border-radius: 15px;
+  scrollbar-gutter: stable;
+
+
+  
 
   & .banner{
     background-color: transparent;
@@ -75,11 +135,12 @@ body {
     display: block;
     flex-direction: column;
     margin:auto;
-    padding: 3rem;
+    padding: 0.75rem 3rem;
     font-size: 1.75rem;
-
-    & .modal-col {
-        display: block;
+    @mixin modal-col-template {
+      display: block;
+      padding-bottom: 1rem;
+      visibility: visible;
       & .setting-label{
         display: block;
         padding: 0.375rem 0 ;
@@ -94,6 +155,15 @@ body {
         appearance: none;
         border-radius: 0.375rem;
       }
+    }
+    & .modal-col {
+      @include modal-col-template;
+    }
+    & .modal-col-2{
+      @include modal-col-template;
+      margin-left : 2rem;
+      font-size: 1.5rem;
+
     }
   }
   & .modal-footer{
@@ -116,8 +186,18 @@ body {
       background-color: brown;
     }
   }
-
 }
+
+// setting description ( order-speech )
+.description{
+  font-size : 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+input::-webkit-input-placeholder{
+  opacity: 0.4;
+}
+
 .fullScreen {
   position: absolute;
   display: none;
@@ -130,11 +210,54 @@ body {
 
 // Numbering list
 .numberList{
-  width: $numberListWidth;
-  top: 100px;
-  height: calc( 100% - 100px); // Entire Height - banner height
   position: absolute;
-  background-color: brown;
+  top: 100px;
+  width: $numberListWidth;
+  height: calc( 100% - 100px); // Entire Height - banner height
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-size: 7rem;
+  letter-spacing: 1rem;
+  overflow: scroll;
+  & .order{
+    position: relative;
+    display: flex;
+    width: 100%;
+    padding : 1.5rem 3rem;
+    & .order-button{
+      width: 25%;
+      font-size: 2rem;
+      border-radius: 0.375rem;
+    }
+    & .delete-order{
+      background-color: brown;
+    }
+    & .repeat-order{
+      margin-left: auto;
+      margin-right: 1rem;
+      background-color: darkgoldenrod;
+
+    }
+    & .loading-bar {
+      position: absolute;
+      left:0;
+      top:135px;
+      width: 100%;
+      height: 10px;
+      background-color: #f2f2f2;
+      margin-top: 20px;
+    }
+
+    & .progress-bar {
+      width: 0;
+      height: 100%;
+      background-color: #007bff;
+    }
+  }
+}
+.double-dot{
+  border-right: 5px #333333 double;
 }
 
 // Number Pad
@@ -154,7 +277,12 @@ body {
 
     & .inputNum{
       display: flex;
-      width: calc(100% - 33.3%);
+      justify-content: center;
+      align-items: center;
+      width: calc(100% - 66.6%);
+      font-size: 4rem;
+      letter-spacing: 10px;
+
     }
   }
 
@@ -182,13 +310,151 @@ body {
 }
 .numberInput .back-key{
   @extend .key;
-  width: calc(100% / 3);
   margin-left: auto;
   border-left: 1px solid $numberBorderColor;
-
+}
+.next-key{
+  @extend .back-key;
 }
 
 .key:active, .back-key:active{
-  background-color: white;
+  background-color: darkgrey;
   //animation: background-color ease-in 1s;
+}
+
+// Customer part - board
+$customerBannerHeight : 200px;
+
+.customer-banner{
+  height: $customerBannerHeight;
+  color: $numberFontColor;
+  text-align: center;
+  & .customer-storeName{
+    width: 100%;
+    font-size: 10rem;
+  }
+}
+.alert-modal{
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  color: $numberFontColor;
+  background-color: $bannerColor;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 3;
+  & .alert-storename{
+    font-size: 15rem;
+    // height: 30%;
+  }
+  & .alert-number{
+    font-size: 35rem;
+    // height: 70%;
+  }
+}
+.board-number-list{
+  //position: absolute;
+  top: $customerBannerHeight;
+  display: flex;
+  height: calc(100vh - $customerBannerHeight);
+  padding: 1rem;
+  background-color: $backgroundColor;
+  color: $numberFontColor;
+  align-items: center;
+  text-align: center;
+  font-size: 12rem;
+  letter-spacing: 1rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.board-order{
+  width: 30%;
+  height: 33%;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  font-size: 17rem;
+}
+//https://stackoverflow.com/questions/8720931/can-css-detect-the-number-of-children-an-element-has
+/* one item */
+.board-order:first-child:nth-last-child(1) {
+  /* -or- .board-order:only-child { */
+  width: 100%;
+  font-size: 35rem;
+}
+
+/* two items */
+.board-order:first-child:nth-last-child(2),
+.board-order:first-child:nth-last-child(2) ~ .board-order {
+  width: 50%;
+  font-size: 30rem;
+}
+
+/* three items */
+.board-order:first-child:nth-last-child(3),
+.board-order:first-child:nth-last-child(3) ~ .board-order {
+  width: 33.3333%;
+}
+
+/* four items */
+.board-order:first-child:nth-last-child(4),
+.board-order:first-child:nth-last-child(4) ~ .board-order {
+  width: 50%;
+  font-size: 20rem;
+}
+
+/* five items */
+.board-order:first-child:nth-last-child(5),
+.board-order:first-child:nth-last-child(5) ~ .board-order {
+  width: 33.3%;
+}
+
+.modal-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 2rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.appear-element{
+  animation: appear 0.5s forwards;
+}
+
+.disappear-element{
+  animation: disappear 0.5s forwards;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    visibility: visible;
+    transform: translateY(-10%);
+
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10%);
+  }
 }

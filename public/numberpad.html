@@ -6,16 +6,57 @@
     <meta name="description" content="Numbering management side webpage" />
     <title>Number Pad</title>
     <link rel="stylesheet" href="/css/styles.css"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favio/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favio/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favio/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favio/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favio/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favio/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favio/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favio/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favio/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/favio/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favio/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favio/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favio/favicon-16x16.png">
+    <link rel="manifest" href="/images/favio/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <!-- Setting pop up -->
+    <!-- full screen pop up -->
     <section class="fullScreen" id="fullScreen"></section>
 
-    <section class="modal" id="modal">
+    <section class="modal guide-modal" id="guide-modal">
+        <div class="banner">
+            <div class="banner-title">Guide</div>
+            <div class="banner-button">
+                <button class="iconButton button guide-button" data-modal="guide-modal" data-guide="close">
+                    <img class="icon" src="images/cancel_icon.png"/>
+                </button>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-col guide-content">
+                <p>Please check TV monitor is on and connected with Tablet</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="iconButton button guide-button" data-guide="next">
+                Yes, It is connected
+            </button>
+            <button type="button" class="iconButton button guide-button" data-guide="monitor">
+                No, It is not
+            </button>
+        </div>
+    </section>
+    <!-- Store name Setting modal  -->
+    <section class="modal" id="setting-modal">
         <div class="banner">
             <div class="banner-title">Setting</div>
             <div class="banner-button">
-                <button class="iconButton close-button" type="button" data-key="close">
+                <button class="iconButton button close-button" id="close" data-modal="setting-modal" data-key="close">
                     <img class="icon" src="images/cancel_icon.png"/>
                 </button>
             </div>
@@ -23,15 +64,39 @@
         <div class="modal-body">
             <div class="modal-col">
                 <label for="store-name" class="setting-label">Store Name :</label>
-                <input type="text" class="setting-input" id="store-name">
+                <input type="text" placeholder="type store name" class="setting-input" id="store-name">
             </div>
-
+            <div class="modal-col">
+                <label for="bellSound-option" class="setting-label">Bell Sound :</label>
+                <p class="description">Ding dong bell sound setting </p>
+                <select name="bellSound-option" id="bellSound-option" class="setting-input">
+                    <option value="enable">Enable(default)</option>
+                    <option value="disable">Disable</option>
+                </select>
+            </div>
+            <div class="modal-col">
+                <label for="order-speech" class="setting-label">Order Speech :</label>
+                <p class="description">Default : Bell sound(optional) + <b>( Add speech here )</b> + order number </p>
+                <input type="text" placeholder="Create order speech" class="setting-input" id="order-speech">
+            </div>
+            <div class="modal-col">
+                <label for="timer-option" class="setting-label">Timer :</label>
+                <select name="timer-option" id="timer-option" class="setting-input">
+                    <option value="enable">Enable(default)</option>
+                    <option value="disable">Disable</option>
+                </select>
+            </div>
+            <div class="modal-col-2 timer-subOption">
+                <label for="timer-duration" class="setting-label">Timer Duration (min) :</label>
+                <p class="description">Default : 3 Minutes ( After 3 Minutes Order number will be removed automatically. ) </p>
+                <input type="number" placeholder="Insert desired minutes" class="setting-input" id="timer-duration">
+            </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="iconButton save-button" data-key="save">
+            <button type="button" id="save" class="iconButton button save-button" data-key="save">
                 Save setting
             </button>
-            <button type="button" class="iconButton cancel-button" data-key="close">
+            <button type="button" class="iconButton button cancel-button" id="cancel" data-key="close">
                 cancel
             </button>
         </div>
@@ -39,24 +104,26 @@
 
     <!-- Banner ( Store name and setting )-->
     <section class="banner">
-        <div class="storeName">Example</div>
+        <div class="storeName" id="storeName"></div>
         <div class="banner-button">
-            <button class="iconButton settingButton" type="button" data-key="setting">
+            <button type="button" class="button help-button" data-key="help" >Help</button>
+            <button type="button" class="fullscreen-button button" id="fullscreen-button" data-key="fullscreen" >Full Screen</button>
+            <a class="iconButton button settingButton" id="setting" data-key="setting">
                 <img class="icon" src="images/settings.png"/>
-            </button>
+            </a>
         </div>
     </section>
 
     <!--  List of number  -->
-    <section class="numberList">
-
+    <section class="numberList double-dot" id="numberList">
     </section>
 
     <!--  Numbering input and dial section -->
     <section class="numbering">
         <div class="numberInput">
-            <span class="inputNum"></span>
-            <button class="back-key" data-key="back">Back</button>
+            <span class="inputNum" id="numberInput"></span>
+            <button class="key next-key" data-key= "next">Next+</button>
+            <button class="key back-key" data-key= "back">Back</button>
         </div>
         <div class="numberDial">
             <div class="row">
@@ -82,7 +149,14 @@
         </div>
     </section>
 
-<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-<script src="js/numberpad.js"></script>
+        <!-- socket.io JS -->
+        <script src="/socket.io/socket.io.js"></script>
+        <!--  Toastify.js   -->
+        <!--  If you want to use npm on the client you may consider using browserify which is designed for that purpose. The node module system is not compatible with browsers so browserify transpiles the javascript into something that will work. Hence the name : browserify.    -->
+        <!--  Just copy module file on js file  -->
+        <script src="js/toastify-js/src/toastify.js"></script>
+        <link rel="stylesheet" type="text/css" href="js/toastify-js/src/toastify.css">
+    <script src="js/common.js" type="module"></script>
+    <script src="js/numberpad.js"></script>
 </body>
 </html>

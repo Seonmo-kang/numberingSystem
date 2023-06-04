@@ -10,6 +10,11 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+button {
+  background-color: #0d6efd;
+  font-size: 1.5rem;
+}
+
 .banner {
   left: 0;
   top: 0;
@@ -17,32 +22,78 @@ body {
   height: 100px;
   display: flex;
   text-align: center;
-  background-color: cornflowerblue;
+  background-color: #e61405;
   z-index: 10;
 }
 .banner .storeName, .modal .banner .banner-title {
   margin-left: 1.5rem;
   align-self: center;
-  font-size: 2.5rem;
+  font-size: 5rem;
 }
 .banner .banner-button {
+  display: flex;
+  align-items: center;
   margin-left: auto;
   margin-right: 1.5rem;
   align-self: center;
 }
+.banner .banner-button .button {
+  margin-left: 1.5rem;
+}
+.banner .banner-button .help-button {
+  font-size: 1.25rem;
+  background-color: greenyellow;
+  width: 100px;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 2rem;
+  margin: 0.375rem;
+}
+.banner .banner-button .fullscreen-button {
+  font-size: 1.25rem;
+  background-color: green;
+  width: 200px;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 2rem;
+  margin: 0.375rem;
+}
 .banner .banner-button .iconButton {
+  display: block;
+  width: auto;
   background-color: transparent;
   border: none;
 }
 .banner .banner-button .icon {
   width: 70px;
   height: auto;
+  pointer-events: none;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 20px;
+  background-color: #f2f2f2;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #a5a5a5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #575757;
 }
 
 .modal {
   background: white;
   position: absolute;
   display: none;
+  max-height: 100%;
+  overflow-y: scroll;
   float: left;
   padding: 1rem;
   left: 50%;
@@ -50,6 +101,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: 4;
   border-radius: 15px;
+  scrollbar-gutter: stable;
 }
 .modal .banner {
   background-color: transparent;
@@ -59,17 +111,40 @@ body {
   display: block;
   flex-direction: column;
   margin: auto;
-  padding: 3rem;
+  padding: 0.75rem 3rem;
   font-size: 1.75rem;
 }
 .modal .modal-body .modal-col {
   display: block;
+  padding-bottom: 1rem;
+  visibility: visible;
 }
 .modal .modal-body .modal-col .setting-label {
   display: block;
   padding: 0.375rem 0;
 }
 .modal .modal-body .modal-col .setting-input {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 2rem;
+  background-color: #ffffff;
+  border: 1px solid #ced4da;
+  appearance: none;
+  border-radius: 0.375rem;
+}
+.modal .modal-body .modal-col-2 {
+  display: block;
+  padding-bottom: 1rem;
+  visibility: visible;
+  margin-left: 2rem;
+  font-size: 1.5rem;
+}
+.modal .modal-body .modal-col-2 .setting-label {
+  display: block;
+  padding: 0.375rem 0;
+}
+.modal .modal-body .modal-col-2 .setting-input {
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
@@ -100,6 +175,16 @@ body {
   background-color: brown;
 }
 
+.description {
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+input::-webkit-input-placeholder {
+  opacity: 0.4;
+}
+
 .fullScreen {
   position: absolute;
   display: none;
@@ -110,11 +195,53 @@ body {
 }
 
 .numberList {
-  width: 55%;
-  top: 100px;
-  height: calc(100% - 100px);
   position: absolute;
+  top: 100px;
+  width: 55%;
+  height: calc(100% - 100px);
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-size: 7rem;
+  letter-spacing: 1rem;
+  overflow: scroll;
+}
+.numberList .order {
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding: 1.5rem 3rem;
+}
+.numberList .order .order-button {
+  width: 25%;
+  font-size: 2rem;
+  border-radius: 0.375rem;
+}
+.numberList .order .delete-order {
   background-color: brown;
+}
+.numberList .order .repeat-order {
+  margin-left: auto;
+  margin-right: 1rem;
+  background-color: darkgoldenrod;
+}
+.numberList .order .loading-bar {
+  position: absolute;
+  left: 0;
+  top: 135px;
+  width: 100%;
+  height: 10px;
+  background-color: #f2f2f2;
+  margin-top: 20px;
+}
+.numberList .order .progress-bar {
+  width: 0;
+  height: 100%;
+  background-color: #007bff;
+}
+
+.double-dot {
+  border-right: 5px #333333 double;
 }
 
 .numbering {
@@ -133,7 +260,11 @@ body {
 }
 .numbering .numberInput .inputNum {
   display: flex;
-  width: 66.7%;
+  justify-content: center;
+  align-items: center;
+  width: 33.4%;
+  font-size: 4rem;
+  letter-spacing: 10px;
 }
 .numbering .numberDial {
   height: calc(100% - 150px);
@@ -144,7 +275,7 @@ body {
   height: 25%;
 }
 
-.key, .numberInput .back-key {
+.key, .numberInput .back-key, .numberInput .next-key {
   width: 33.3333333333%;
   font-size: 3rem;
   background-color: gainsboro;
@@ -152,18 +283,147 @@ body {
   border-radius: 5px;
 }
 
-.key:last-child, .numberInput .back-key:last-child {
+.key:last-child, .numberInput .back-key:last-child, .numberInput .next-key:last-child {
   border-right: none;
 }
 
-.numberInput .back-key {
-  width: 33.3333333333%;
+.numberInput .back-key, .numberInput .next-key {
   margin-left: auto;
   border-left: 1px solid #f9f9f9;
 }
 
-.key:active, .back-key:active {
-  background-color: white;
+.key:active, .back-key:active, .next-key:active {
+  background-color: darkgrey;
+}
+
+.customer-banner {
+  height: 200px;
+  color: #fafafa;
+  text-align: center;
+}
+.customer-banner .customer-storeName {
+  width: 100%;
+  font-size: 10rem;
+}
+
+.alert-modal {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  color: #fafafa;
+  background-color: #e61405;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 3;
+}
+.alert-modal .alert-storename {
+  font-size: 15rem;
+}
+.alert-modal .alert-number {
+  font-size: 35rem;
+}
+
+.board-number-list {
+  top: 200px;
+  display: flex;
+  height: calc(100vh - 200px);
+  padding: 1rem;
+  background-color: #0a0a0a;
+  color: #fafafa;
+  align-items: center;
+  text-align: center;
+  font-size: 12rem;
+  letter-spacing: 1rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.board-order {
+  width: 30%;
+  height: 33%;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  font-size: 17rem;
+}
+
+/* one item */
+.board-order:first-child:nth-last-child(1) {
+  /* -or- .board-order:only-child { */
+  width: 100%;
+  font-size: 35rem;
+}
+
+/* two items */
+.board-order:first-child:nth-last-child(2),
+.board-order:first-child:nth-last-child(2) ~ .board-order {
+  width: 50%;
+  font-size: 30rem;
+}
+
+/* three items */
+.board-order:first-child:nth-last-child(3),
+.board-order:first-child:nth-last-child(3) ~ .board-order {
+  width: 33.3333%;
+}
+
+/* four items */
+.board-order:first-child:nth-last-child(4),
+.board-order:first-child:nth-last-child(4) ~ .board-order {
+  width: 50%;
+  font-size: 20rem;
+}
+
+/* five items */
+.board-order:first-child:nth-last-child(5),
+.board-order:first-child:nth-last-child(5) ~ .board-order {
+  width: 33.3%;
+}
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 2rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.appear-element {
+  animation: appear 0.5s forwards;
+}
+
+.disappear-element {
+  animation: disappear 0.5s forwards;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    visibility: visible;
+    transform: translateY(-10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10%);
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */
