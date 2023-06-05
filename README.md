@@ -11,7 +11,6 @@ https://github.com/Seonmo-kang/numberingSystem/assets/66151730/69146f6d-ce6e-417
     Food court numbering system
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
 </div>
 
 <!-- ABOUT THE PROJECT -->
