@@ -71,7 +71,7 @@ def openBoardPage(w,h):
     options.add_argument("--disable-dev-shm-using")
 
     # Board page
-    browser2 = webdriver.Chrome(options= options)
+    browser2 = webdriver.Chrome(executable_path=r"C:\numberingSystem-dev\chromeDriver\chromedriver.exe",options= options)
     browser2.set_window_position(w,h)
     browser2.get('http://localhost:3000/board')
     browser2.maximize_window()
@@ -95,7 +95,7 @@ def openNumberpadPage(w,h):
     options.add_argument('--profile-directory=Default')
 
     # Numberpad page
-    browser = webdriver.Chrome(options= options)
+    browser = webdriver.Chrome(executable_path=r"C:\numberingSystem-dev\chromeDriver\chromedriver.exe",options= options)
     browser.set_window_position(w,h)
     browser.get('http://localhost:3000/numberpad')
     browser.maximize_window()
